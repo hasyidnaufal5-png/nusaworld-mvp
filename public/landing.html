@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NusaWorld — Opsi 5 · Kota Koin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ocean:#1B6CA8;
+  --night:#042C53;
+  --green:#2EAF73;
+  --green-d:#1D9E75;
+  --gold:#F5C518;
+  --teal:#5DCAA5;
+  --bg:#F2F8FB;
+  --ink:#0A2847;
+  --muted:#51718B;
+  --line:rgba(10,40,71,.1);
+  --fx:.7;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--ink);line-height:1.65;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+ul{list-style:none}
+img,svg{max-width:100%;display:block}
+.wrap{max-width:1140px;margin:0 auto;padding:0 24px}
+section{padding:88px 0}
+.kicker{display:inline-block;font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--ocean);background:#E3F0F9;padding:5px 14px;border-radius:99px;margin-bottom:16px}
+h2{font-size:clamp(28px,3.6vw,42px);font-weight:900;line-height:1.12;letter-spacing:-.5px;margin-bottom:12px;text-wrap:pretty}
+.lead{font-size:17px;color:var(--muted);max-width:560px;text-wrap:pretty}
+
+/* ===== NAVBAR ===== */
+.nav{position:fixed;top:0;left:0;right:0;z-index:500;transition:background .25s}
+.nav.stuck{background:rgba(242,248,251,.94);backdrop-filter:blur(12px);box-shadow:0 1px 0 var(--line)}
+.nav-in{max-width:1240px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;gap:28px}
+.logo{display:flex;align-items:center;gap:9px;font-size:20px;font-weight:900;letter-spacing:-.4px}
+.logo .n1{color:var(--ocean)}.logo .n2{color:var(--green)}
+.nav-links{display:flex;gap:24px;font-size:14px;font-weight:700;color:var(--muted);margin-left:auto}
+.nav-links a:hover{color:var(--ocean)}
+.nav-cta{display:flex;align-items:center;gap:14px}
+.nav-masuk{font-size:14px;font-weight:800;color:var(--ocean)}
+.btn{display:inline-flex;align-items:center;gap:8px;background:var(--green);color:#fff;font-family:'Nunito',sans-serif;font-size:15px;font-weight:800;padding:12px 26px;border-radius:99px;border:none;cursor:pointer;box-shadow:0 4px 0 var(--green-d);transition:transform .12s,box-shadow .12s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 6px 0 var(--green-d)}
+.btn:active{transform:translateY(2px);box-shadow:0 2px 0 var(--green-d)}
+.btn.sm{font-size:13.5px;padding:9px 20px;box-shadow:0 3px 0 var(--green-d)}
+.btn.ghost{background:rgba(255,255,255,.7);color:var(--ocean);box-shadow:inset 0 0 0 2px rgba(27,108,168,.3)}
+.btn.ghost:hover{box-shadow:inset 0 0 0 2px var(--ocean);transform:none}
+
+/* ===== HERO 3D FULL-BLEED ===== */
+.hero3d{position:relative;min-height:100vh;display:flex;align-items:center;background:linear-gradient(180deg,#BBDFF5 0%,#DDF0FB 55%,#F2F8FB 100%);overflow:hidden}
+#scene{position:absolute;inset:0;cursor:grab}
+#scene:active{cursor:grabbing}
+#scene canvas{display:block;width:100%;height:100%;touch-action:pan-y}
+.hero-overlay{position:relative;z-index:10;max-width:1240px;margin:0 auto;padding:110px 24px 80px;width:100%;pointer-events:none}
+.hero-card{max-width:560px;pointer-events:auto;background:rgba(242,248,251,.72);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.6);border-radius:26px;padding:34px 36px;box-shadow:0 18px 50px rgba(10,40,71,.1)}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:#FFF6D6;border:1px solid #F0DD96;color:#7A5E04;font-size:13px;font-weight:800;padding:6px 16px;border-radius:99px;margin-bottom:22px}
+.hero-card h1{font-size:clamp(36px,5vw,58px);font-weight:900;line-height:1.06;letter-spacing:-1.5px;margin-bottom:18px;text-wrap:pretty}
+.hero-card h1 .hl{color:var(--green)}
+.hero-sub{font-size:18px;color:var(--muted);max-width:480px;margin-bottom:30px;text-wrap:pretty}
+.hero-ctas{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:14px}
+.hero-micro{font-size:13px;font-weight:600;color:#7E96AA;display:flex;gap:14px;flex-wrap:wrap}
+.drag-hint{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);z-index:10;font-size:13px;font-weight:700;color:#5E7C95;background:rgba(255,255,255,.75);border:1px solid var(--line);padding:7px 18px;border-radius:99px;pointer-events:none;backdrop-filter:blur(6px)}
+
+/* ===== TRACKS ===== */
+.tracks{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.track-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:40px}
+.tcard{position:relative;background:#fff;border:1.5px solid var(--line);border-radius:20px;padding:26px 22px;transition:transform .18s,box-shadow .18s,border-color .18s;cursor:pointer;text-align:left}
+.tcard:hover{transform:translateY(-6px);box-shadow:0 18px 36px rgba(10,40,71,.12);border-color:var(--teal)}
+.tcard.feat{border:2px solid var(--green);background:linear-gradient(180deg,#F0FBF6,#fff 55%)}
+.tcard .ico{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;margin-bottom:16px;font-size:24px}
+.tcard h3{font-size:18px;font-weight:900;margin-bottom:6px}
+.tcard p{font-size:14px;color:var(--muted);margin-bottom:14px;text-wrap:pretty}
+.tcard .est{font-size:12.5px;font-weight:800;color:var(--ocean)}
+.tcard .star{position:absolute;top:-13px;left:22px;background:var(--green);color:#fff;font-size:12px;font-weight:800;padding:4px 14px;border-radius:99px}
+.track-note{margin-top:22px;font-size:13.5px;font-weight:600;color:#7E96AA;text-align:center}
+
+/* ===== STEPS ===== */
+.steps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:40px}
+.step{background:#fff;border:1.5px solid var(--line);border-radius:20px;padding:30px 26px;text-align:left}
+.step .num{width:42px;height:42px;border-radius:50%;background:var(--ocean);color:#fff;font-size:18px;font-weight:900;display:grid;place-items:center;margin-bottom:18px;box-shadow:0 3px 0 #134e7c}
+.step:nth-child(2) .num{background:var(--green);box-shadow:0 3px 0 var(--green-d)}
+.step:nth-child(3) .num{background:#D9A90C;box-shadow:0 3px 0 #a8820a}
+.step h3{font-size:19px;font-weight:900;margin-bottom:8px}
+.step p{font-size:14.5px;color:var(--muted);text-wrap:pretty}
+
+/* ===== GAME ===== */
+.game{background:var(--night);color:#fff;overflow:hidden}
+.game .kicker{background:rgba(93,202,165,.14);color:var(--teal)}
+.game h2{color:#fff}
+.game .lead{color:rgba(255,255,255,.65)}
+.game-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:54px;align-items:center}
+.game-feats{margin-top:28px;display:grid;gap:14px}
+.gf{display:flex;gap:14px;align-items:flex-start}
+.gf .gi{width:40px;height:40px;border-radius:12px;background:rgba(93,202,165,.14);display:grid;place-items:center;font-size:18px;flex-shrink:0}
+.gf h4{font-size:15.5px;font-weight:800;color:#fff}
+.gf p{font-size:13.5px;color:rgba(255,255,255,.6);text-wrap:pretty}
+.city-card{border-radius:22px;overflow:hidden;border:1px solid rgba(93,202,165,.25);box-shadow:0 30px 70px rgba(0,0,0,.45);background:#0E3A66;transition:transform .3s}
+.city-card:hover{transform:translateY(-6px)}
+.city-bar{display:flex;align-items:center;gap:8px;padding:10px 16px;background:rgba(255,255,255,.05);border-bottom:1px solid rgba(255,255,255,.08);font-size:12px;font-weight:700;color:rgba(255,255,255,.5)}
+.city-bar .dot{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.18)}
+.game-note{margin-top:30px;background:rgba(245,197,24,.08);border:1px solid rgba(245,197,24,.25);border-radius:14px;padding:14px 18px;font-size:13.5px;color:#F7DF8E;font-weight:600}
+
+/* ===== PRICING ===== */
+.price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:44px}
+.pcard{background:#fff;border:1.5px solid var(--line);border-radius:22px;padding:32px 28px;position:relative;display:flex;flex-direction:column;text-align:left}
+.pcard.feat{border:2.5px solid var(--green);box-shadow:0 16px 40px rgba(46,175,115,.14)}
+.pcard .rec{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--green);color:#fff;font-size:12px;font-weight:800;padding:5px 18px;border-radius:99px;white-space:nowrap}
+.pcard .pname{font-size:16px;font-weight:900;margin-bottom:2px}
+.pcard .pdesc{font-size:13px;color:var(--muted);margin-bottom:18px}
+.pcard .pprice{font-size:36px;font-weight:900;letter-spacing:-1px;line-height:1}
+.pcard .pprice small{font-size:14px;font-weight:700;color:var(--muted);letter-spacing:0}
+.pcard .punit{font-size:12.5px;font-weight:700;color:#7E96AA;margin:6px 0 20px;padding-bottom:18px;border-bottom:1px solid var(--line)}
+.pcard ul{display:grid;gap:9px;margin-bottom:26px}
+.pcard li{display:flex;gap:9px;font-size:14px;color:var(--muted);font-weight:600}
+.pcard li .ck{color:var(--green);font-weight:900;flex-shrink:0}
+.pcard .btn{margin-top:auto;justify-content:center}
+
+/* ===== FAQ ===== */
+.faq{background:#fff;border-top:1px solid var(--line)}
+.faq-list{max-width:760px;margin:40px auto 0;display:grid;gap:12px}
+details{background:var(--bg);border:1.5px solid var(--line);border-radius:16px;padding:0 24px;transition:border-color .15s;text-align:left}
+details[open]{border-color:var(--teal)}
+summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:19px 0;font-size:16px;font-weight:800}
+summary::-webkit-details-marker{display:none}
+summary .pm{width:28px;height:28px;border-radius:50%;background:#E3F0F9;color:var(--ocean);display:grid;place-items:center;font-weight:900;flex-shrink:0;transition:transform .2s}
+details[open] summary .pm{transform:rotate(45deg);background:var(--green);color:#fff}
+details .ans{padding:0 0 20px;font-size:14.5px;color:var(--muted);max-width:620px;text-wrap:pretty}
+
+/* ===== FINAL ===== */
+.final{background:linear-gradient(160deg,var(--ocean),#15598C);color:#fff;text-align:center;border-radius:28px;padding:72px 32px;position:relative;overflow:hidden}
+.final::before{content:'';position:absolute;top:-70px;right:-70px;width:240px;height:240px;border-radius:50%;background:rgba(255,255,255,.06)}
+.final::after{content:'';position:absolute;bottom:-90px;left:-50px;width:280px;height:280px;border-radius:50%;background:rgba(255,255,255,.05)}
+.final h2{color:#fff;position:relative;z-index:1}
+.final p{color:rgba(255,255,255,.7);font-size:16px;margin-bottom:30px;position:relative;z-index:1}
+.final .btn{position:relative;z-index:1;font-size:17px;padding:15px 36px}
+
+/* ===== FOOTER ===== */
+.footer{padding:54px 0 96px;text-align:center;color:#7E96AA;font-size:13.5px;font-weight:600}
+.footer .ar{font-size:26px;color:var(--green-d);margin:14px 0 4px;direction:rtl;font-weight:700}
+.footer .tagline{font-weight:800;letter-spacing:.1em;text-transform:uppercase;font-size:11.5px;color:#9DB2C4;margin-top:10px}
+
+@media (prefers-reduced-motion: no-preference){
+  .rv{opacity:0;transform:translateY(22px);transition:opacity .6s ease,transform .6s ease}
+  .rv.in{opacity:1;transform:none}
+}
+@media(max-width:960px){
+  .track-grid{grid-template-columns:repeat(2,1fr)}
+  .steps-grid{grid-template-columns:1fr}
+  .game-grid{grid-template-columns:1fr}
+  .price-grid{grid-template-columns:1fr;max-width:440px;margin-left:auto;margin-right:auto}
+  .nav-links{display:none}
+}
+@media(max-width:560px){
+  section{padding:64px 0}
+  .track-grid{grid-template-columns:1fr}
+  .nav-masuk{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ NAVBAR ============ -->
+<nav class="nav" id="nav" data-screen-label="Navbar">
+  <div class="nav-in">
+    <a class="logo" href="#"><span><span class="n1">Nusa</span><span class="n2">World</span></span></a>
+    <div class="nav-links">
+      <a href="#tracks">Kelas</a>
+      <a href="#cara">Cara Kerja</a>
+      <a href="#game">Dunia Game</a>
+      <a href="#harga">Harga</a>
+    </div>
+    <div class="nav-cta">
+      <a class="nav-masuk" href="#">Masuk</a>
+      <a class="btn sm" href="#mulai">Mulai Gratis</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============ HERO 3D: KOTA YANG TUMBUH ============ -->
+<header class="hero3d" id="hero" data-screen-label="Hero 3D Kota">
+  <div id="scene" aria-label="Kota NusaWorld 3D — tarik untuk memutar"></div>
+  <div class="hero-overlay">
+    <div class="hero-card">
+      <div class="hero-badge" data-umroh-badge="">★ Baru — Track Siap Umroh, 8 minggu</div>
+      <h1 id="heroTitle">Belajar Bahasa Arab itu <span class="hl">Menyenangkan</span>.</h1>
+      <p class="hero-sub">Setiap quest yang kamu selesaikan membangun kotamu — gedung demi gedung. Kurikulum Arab per tujuan, terasa seperti main game.</p>
+      <div class="hero-ctas">
+        <a class="btn" href="#mulai" id="mulai">Coba 10 Soal Gratis →</a>
+        <a class="btn ghost" href="#cara">Lihat cara kerja</a>
+      </div>
+      <div class="hero-micro">
+        <span>✓ Tanpa daftar</span>
+        <span>✓ Tanpa kartu kredit</span>
+        <span>✓ Mulai dari nol</span>
+      </div>
+    </div>
+  </div>
+  <div class="drag-hint" id="dragHint">↻ &nbsp;Tarik untuk memutar — si Penyu mengitari kotamu!</div>
+</header>
+
+<!-- ============ TRACKS ============ -->
+<section class="tracks" id="tracks" data-screen-label="Jalur Belajar">
+  <div class="wrap" style="text-align:center">
+    <span class="kicker">KELAS</span>
+    <h2>Kamu mau belajar Arab untuk apa?</h2>
+    <p class="lead" style="margin:0 auto">Pilih jalurmu. Kurikulum tersusun per tujuan — bukan satu ukuran untuk semua.</p>
+    <div class="track-grid">
+      <div class="tcard feat rv">
+        <div class="star" data-umroh-badge="">★ Paling diminati</div>
+        <div class="ico" style="background:#E1F5EE">🕋</div>
+        <h3>Siap Umroh</h3>
+        <p>Kuasai doa, ritual, dan sapaan ibadah — siap berangkat dengan percaya diri.</p>
+        <div class="est">⏱ 8 minggu · 3 level</div>
+      </div>
+      <div class="tcard rv">
+        <div class="ico" style="background:#E3F0F9">💬</div>
+        <h3>Percakapan Sehari-hari</h3>
+        <p>Ngobrol santai — sapaan, keluarga, aktivitas harian, sampai level mahir.</p>
+        <div class="est">⏱ 10 minggu · 4 level</div>
+      </div>
+      <div class="tcard rv">
+        <div class="ico" style="background:#FFF6D6">💼</div>
+        <h3>Arabic Bisnis</h3>
+        <p>Korespondensi, meeting, dan negosiasi untuk karier di Timur Tengah.</p>
+        <div class="est">⏱ 12 minggu · 4 level</div>
+      </div>
+      <div class="tcard rv">
+        <div class="ico" style="background:#F0EBFA">✈️</div>
+        <h3>Arabic Travel</h3>
+        <p>Bandara, hotel, arah jalan — percaya diri menjelajah negeri Arab.</p>
+        <div class="est">⏱ 6 minggu · 2 level</div>
+      </div>
+    </div>
+    <p class="track-note">Semua jalur dimulai dari fondasi yang sama: L1 Iqro (baca huruf) &amp; L2 Gramatika (Nahwu + Sharaf).</p>
+  </div>
+</section>
+
+<!-- ============ CARA KERJA ============ -->
+<section id="cara" data-screen-label="Cara Kerja">
+  <div class="wrap" style="text-align:center">
+    <span class="kicker">Cara Kerja</span>
+    <h2>Semudah tiga langkah</h2>
+    <div class="steps-grid">
+      <div class="step rv">
+        <div class="num">1</div>
+        <h3>Pilih Kelasmu</h3>
+        <p>Umroh, percakapan, bisnis, atau travel. Setiap jalur punya outcome dan estimasi waktu yang jelas.</p>
+      </div>
+      <div class="step rv">
+        <div class="num">2</div>
+        <h3>Kerjakan quest, dapat koin</h3>
+        <p>10–15 soal per sesi, tiga babak dari mudah ke sulit. Cuma 5–8 menit . progres tersimpan otomatis.</p>
+      </div>
+      <div class="step rv">
+        <div class="num">3</div>
+        <h3>Bangun kota bersama</h3>
+        <p>Koinmu jadi rumah, toko, dan taman di Dunia Game. kota bersama semua pemain NusaWorld.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DUNIA GAME ============ -->
+<section class="game" id="game" data-screen-label="Dunia Game">
+  <div class="wrap game-grid">
+    <div>
+      <span class="kicker">Dunia Game</span>
+      <h2>Koin hanya dari belajar. Tidak bisa dibeli uang.</h2>
+      <p class="lead">Kota virtualmu adalah cermin nyata dari belajarmu. Kota yang besar = dedikasi belajar, bukan isi dompet.</p>
+      <div class="game-feats">
+        <div class="gf rv">
+          <div class="gi">⚔️</div>
+          <div>
+            <h4>Duel kosakata lintas bahasa</h4>
+            <p>Pemain Arab bisa menantang pemain Jepang atau Mandarin — satu kota untuk semua bahasa.</p>
+          </div>
+        </div>
+        <div class="gf rv">
+          <div class="gi">🏠</div>
+          <div>
+            <h4>Bangun kota &amp; rumahmu sendiri</h4>
+            <p>Setiap koin dari quest bisa jadi bangunan. Kotamu tumbuh seiring kemampuan bahasamu.</p>
+          </div>
+        </div>
+        <div class="gf rv">
+          <div class="gi">🛡️</div>
+          <div>
+            <h4>Tanpa gacha. Tanpa energy bar.</h4>
+            <p>Tidak ada hukuman kehilangan koin, tidak ada tekanan finansial. Aman untuk semua umur.</p>
+          </div>
+        </div>
+      </div>
+      <div class="game-note">💡 Semakin banyak bahasa kamu pelajari, semakin cepat kotamu berkembang.</div>
+    </div>
+    <div class="city-card rv">
+
+      <svg viewBox="0 0 560 400" aria-label="Preview kota NusaWorld">
+        <rect width="560" height="400" fill="#0E3A66"></rect>
+        <circle cx="60" cy="40" r="2" fill="rgba(255,255,255,.5)"></circle>
+        <circle cx="500" cy="30" r="1.6" fill="rgba(93,202,165,.6)"></circle>
+        <circle cx="320" cy="22" r="1.4" fill="rgba(255,255,255,.35)"></circle>
+        <circle cx="430" cy="64" r="1.4" fill="rgba(245,197,24,.6)"></circle>
+        <ellipse cx="280" cy="280" rx="245" ry="105" fill="#0D6147"></ellipse>
+        <ellipse cx="280" cy="270" rx="228" ry="94" fill="#2EAF73"></ellipse>
+        <ellipse cx="280" cy="282" rx="74" ry="30" fill="#EFD9A7"></ellipse>
+        <ellipse cx="280" cy="282" rx="46" ry="18" fill="#E5C98C"></ellipse>
+        <rect x="116" y="206" width="74" height="56" rx="6" fill="#FDFBF4"></rect>
+        <path d="M121 210 q32 -38 64 0 z" fill="#1D9E75"></path>
+        <rect x="142" y="232" width="20" height="30" rx="9" fill="#1B6CA8"></rect>
+        <rect x="196" y="194" width="11" height="68" rx="5" fill="#FDFBF4"></rect>
+        <path d="M194 196 q7.5 -15 15 0 z" fill="#1D9E75"></path>
+        <rect x="368" y="216" width="56" height="44" rx="5" fill="#E67E22"></rect>
+        <path d="M364 220 l32 -22 l32 22 z" fill="#D35400"></path>
+        <rect x="384" y="238" width="16" height="22" rx="3" fill="#8C3F08"></rect>
+        <rect x="434" y="230" width="44" height="34" rx="5" fill="#F0C04A"></rect>
+        <path d="M430 234 l26 -18 l26 18 z" fill="#D9A90C"></path>
+        <rect x="236" y="196" width="38" height="32" rx="4" fill="#A9D5EE"></rect>
+        <path d="M232 200 l23 -17 l23 17 z" fill="#1B6CA8"></path>
+        <rect x="292" y="200" width="38" height="30" rx="4" fill="#F0997B"></rect>
+        <path d="M288 204 l23 -16 l23 16 z" fill="#C95C36"></path>
+        <circle cx="100" cy="286" r="14" fill="#1D9E75"></circle><rect x="97.6" y="294" width="4.8" height="12" fill="#8A5A2B"></rect>
+        <circle cx="478" cy="290" r="12" fill="#1D9E75"></circle><rect x="476" y="297" width="4" height="10" fill="#8A5A2B"></rect>
+        <circle cx="356" cy="306" r="11" fill="#2EAF73"></circle><rect x="354.2" y="312" width="3.6" height="9" fill="#8A5A2B"></rect>
+        <path d="M180 276 Q230 296 280 286 Q340 274 396 268" fill="none" stroke="#F5C518" stroke-width="3" stroke-dasharray="8,7" stroke-linecap="round"></path>
+        <circle cx="262" cy="276" r="8" fill="#8E44AD"></circle><rect x="256" y="282" width="12" height="12" rx="4" fill="#8E44AD"></rect>
+        <circle cx="298" cy="284" r="8" fill="#2471A3"></circle><rect x="292" y="290" width="12" height="12" rx="4" fill="#2471A3"></rect>
+        <rect x="246" y="226" width="106" height="26" rx="13" fill="#042C53" stroke="rgba(93,202,165,.4)"></rect>
+        <text x="299" y="243" font-family="Nunito,sans-serif" font-size="12.5" font-weight="800" fill="#5DCAA5" text-anchor="middle">⚔ Duel: あ vs ب</text>
+        <rect x="426" y="22" width="112" height="32" rx="16" fill="rgba(4,44,83,.85)" stroke="rgba(245,197,24,.4)"></rect>
+        <circle cx="446" cy="38" r="9" fill="#F5C518"></circle>
+        <text x="446" y="42" font-size="10" font-weight="800" fill="#6E5302" text-anchor="middle" font-family="Nunito,sans-serif">ن</text>
+        <text x="492" y="43" font-family="Nunito,sans-serif" font-size="14" font-weight="800" fill="#fff" text-anchor="middle">1.240</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HARGA ============ -->
+<section id="harga" data-screen-label="Harga">
+  <div class="wrap" style="text-align:center">
+    <span class="kicker">Harga</span>
+    <h2>Bayar sekali. Bukan langganan.</h2>
+    <p class="lead" style="margin:0 auto">Beli putus per level  akses selamanya. Tidak ada tagihan bulanan yang diam-diam jalan terus.</p>
+    <div class="price-grid">
+      <div class="pcard rv">
+        <div class="pname">Mulai Gratis</div>
+        <div class="pdesc">Tanpa daftar · langsung coba</div>
+        <div class="pprice">Rp 0</div>
+        <div class="punit">selamanya</div>
+        <ul>
+          <li><span class="ck">✓</span> Quest penjajakan — 10 soal</li>
+          <li><span class="ck">✓</span> Tanpa akun &amp; login</li>
+          <li><span class="ck">✓</span> Tidak ada batas waktu</li>
+          <li><span class="ck">✓</span> Preview semua jalur</li>
+        </ul>
+        <a class="btn ghost" href="#mulai" style="justify-content:center">Coba Sekarang</a>
+      </div>
+      <div class="pcard feat rv">
+        <div class="rec">Rekomendasi</div>
+        <div class="pname">Satu Level Arab</div>
+        <div class="pdesc">Beli putus · akses selamanya</div>
+        <div class="pprice">Rp 99rb <small>/level</small></div>
+        <div class="punit">sekali bayar — bukan per bulan</div>
+        <ul>
+          <li><span class="ck">✓</span> 4 kelas · ±20 quest</li>
+          <li><span class="ck">✓</span> PDF + latihan + video</li>
+          <li><span class="ck">✓</span> Akses Dunia Game</li>
+          <li><span class="ck">✓</span> Teman AI personal</li>
+          <li><span class="ck">✓</span> Progress &amp; rapor</li>
+        </ul>
+        <a class="btn" href="#">Beli Level 1 →</a>
+      </div>
+      <div class="pcard rv">
+        <div class="pname">Paket Tiga Akun</div>
+        <div class="pdesc">Untuk keluarga · lebih hemat</div>
+        <div class="pprice">Rp 249rb <small>/paket</small></div>
+        <div class="punit">3 akun · 1 level per akun</div>
+        <ul>
+          <li><span class="ck">✓</span> 3 akun terpisah</li>
+          <li><span class="ck">✓</span> Dasbor pantau progres</li>
+          <li><span class="ck">✓</span> Laporan via WhatsApp</li>
+          <li><span class="ck">✓</span> Hemat vs 3× beli sendiri</li>
+        </ul>
+        <a class="btn ghost" href="#" style="justify-content:center">Ambil Paket</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="faq" data-screen-label="FAQ">
+  <div class="wrap" style="text-align:center">
+    <span class="kicker">FAQ</span>
+    <h2>Pertanyaan yang sering muncul</h2>
+    <div class="faq-list">
+      <details>
+        <summary>Bisa mulai dari nol, belum kenal huruf Arab sama sekali? <span class="pm">+</span></summary>
+        <div class="ans">Bisa. L1 Iqro dirancang khusus dari nol — dari mengenal bentuk huruf sampai lancar membaca, lewat quest tracing dan latihan bertahap.</div>
+      </details>
+      <details>
+        <summary>Berapa lama sampai bisa baca huruf Arab? <span class="pm">+</span></summary>
+        <div class="ans">Rata-rata 14 hari dengan satu quest per hari (5–8 menit). Progres tersimpan otomatis, jadi santai saja kalau bolong sehari.</div>
+      </details>
+      <details>
+        <summary>Ada langganan bulanan? <span class="pm">+</span></summary>
+        <div class="ans">Tidak ada. Semua beli putus per level dengan akses selamanya. Bayar sekali, selesai.</div>
+      </details>
+      <details>
+        <summary>Bedanya sama Duolingo? <span class="pm">+</span></summary>
+        <div class="ans">Tiga hal: jalur per tujuan (termasuk Track Umroh yang sangat spesifik), kurikulum Nahwu–Sharaf terstruktur seperti pesantren modern, dan Dunia Game sosial lintas bahasa tempat semua pemain membangun satu kota bersama. Koin hanya bisa didapat dari belajar — tidak bisa dibeli.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FINAL CTA ============ -->
+<section data-screen-label="CTA Final">
+  <div class="wrap">
+    <div class="final rv">
+      <h2>Mulai bangun kotamu hari ini.</h2>
+      <p>10 soal pertama tanpa daftar, tanpa kartu kredit. Setiap jawaban benar adalah satu batu bata kotamu.</p>
+      <a class="btn" href="#mulai">Mulai Belajar →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer" data-screen-label="Footer">
+  <div class="wrap">
+    <div style="font-size:18px;font-weight:900"><span style="color:var(--ocean)">Nusa</span><span style="color:var(--green)">World</span></div>
+    <div class="ar">الْعَرَبِيَّةُ مُمْتِعَة</div>
+    <div>Bahasa Arab itu menyenangkan.</div>
+    <div class="tagline">Jelajahi · Bicara · Mendunia</div>
+    <div style="margin-top:18px;font-size:12.5px">© 2026 NusaWorld — Opsi 5 · Kota Koin</div>
+  </div>
+</footer>
+
+<script src="https://unpkg.com/three@0.149.0/build/three.min.js"></script>
+<script>
+// ===== Kota isometrik 3D yang tumbuh =====
+(function(){
+  var host = document.getElementById('scene');
+  var hero = document.getElementById('hero');
+  var hint = document.getElementById('dragHint');
+  if (!window.THREE || !host) { if(hint) hint.style.display='none'; return; }
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var renderer;
+  try { renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true }); }
+  catch(e){ if(hint) hint.style.display='none'; return; }
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  renderer.setSize(host.clientWidth, host.clientHeight);
+  host.appendChild(renderer.domElement);
+
+  var scene = new THREE.Scene();
+  var camera = new THREE.PerspectiveCamera(33, host.clientWidth/host.clientHeight, .1, 120);
+  camera.position.set(17, 13, 17);
+  camera.lookAt(2.5, .6, 0);
+
+  scene.add(new THREE.HemisphereLight(0xcfe9ff, 0x9ab98f, .95));
+  var sun = new THREE.DirectionalLight(0xfff4d6, 1.1);
+  sun.position.set(8, 14, 6);
+  scene.add(sun);
+
+  function M(c, o){ return new THREE.MeshStandardMaterial(Object.assign({ color:c, flatShading:true, roughness:.85, metalness:.04 }, o||{})); }
+  var city = new THREE.Group();
+  city.position.x = 3.2; // geser kota ke kanan, teks di kiri
+
+  // Tanah
+  var grass = new THREE.Mesh(new THREE.BoxGeometry(15.5, 1.3, 15.5), M(0x2EAF73));
+  grass.position.y = -.65; city.add(grass);
+  var soil = new THREE.Mesh(new THREE.BoxGeometry(16.3, 1.1, 16.3), M(0xC9A86B));
+  soil.position.y = -1.7; city.add(soil);
+  // Jalan silang
+  var roadA = new THREE.Mesh(new THREE.BoxGeometry(15.5, .12, 2.1), M(0xEFD9A7));
+  roadA.position.y = .06; city.add(roadA);
+  var roadB = new THREE.Mesh(new THREE.BoxGeometry(2.1, .12, 15.5), M(0xEFD9A7));
+  roadB.position.y = .06; city.add(roadB);
+
+  // Bangunan — tiap entry: x,z,w,h,d,warna,atap
+  var defs = [
+    [-4.6, -4.6, 2.2, 2.4, 2.2, 0xFDFBF4, 0x1D9E75],
+    [-2.2, -5.2, 1.7, 1.6, 1.7, 0xA9D5EE, 0x1B6CA8],
+    [-5.2, -2.2, 1.7, 1.9, 1.7, 0xF0997B, 0xC95C36],
+    [ 4.4, -4.4, 2.0, 3.0, 2.0, 0xF0C04A, 0xD9A90C],
+    [ 2.2, -5.0, 1.6, 1.5, 1.6, 0xFDFBF4, 0xE67E22],
+    [ 5.2, -2.0, 1.7, 2.2, 1.7, 0xA9D5EE, 0x1B6CA8],
+    [ 4.6,  4.6, 2.3, 1.8, 2.3, 0xF0997B, 0xC95C36],
+    [ 2.1,  5.1, 1.6, 2.6, 1.6, 0xFDFBF4, 0x1D9E75],
+    [ 5.2,  2.1, 1.6, 1.4, 1.6, 0xF0C04A, 0xD9A90C],
+    [-2.2,  5.0, 1.8, 1.7, 1.8, 0xA9D5EE, 0xE67E22]
+  ];
+  var builds = [];
+  defs.forEach(function(d, i){
+    var g = new THREE.Group();
+    var bod = new THREE.Mesh(new THREE.BoxGeometry(d[2], d[3], d[4]), M(d[5]));
+    bod.position.y = d[3]/2;
+    g.add(bod);
+    var roof = new THREE.Mesh(new THREE.ConeGeometry(d[2]*.78, d[3]*.5, 4), M(d[6]));
+    roof.position.y = d[3] + d[3]*.25;
+    roof.rotation.y = Math.PI/4;
+    g.add(roof);
+    g.position.set(d[0], 0, d[1]);
+    g.scale.set(1, .001, 1);
+    g.userData.delay = .25 + i * .22;
+    city.add(g);
+    builds.push(g);
+  });
+
+  // Masjid di kuadran barat-laut
+  var mosque = new THREE.Group();
+  var mb = new THREE.Mesh(new THREE.BoxGeometry(2.6, 1.5, 2.3), M(0xFDFBF4));
+  mb.position.y = .75; mosque.add(mb);
+  var md = new THREE.Mesh(new THREE.SphereGeometry(1.05, 12, 8, 0, Math.PI*2, 0, Math.PI/2), M(0x1D9E75,{roughness:.5}));
+  md.position.y = 1.5; mosque.add(md);
+  var ms = new THREE.Mesh(new THREE.SphereGeometry(.13, 8, 6), M(0xF5C518,{emissive:0x7a5c00}));
+  ms.position.y = 2.7; mosque.add(ms);
+  var mm = new THREE.Mesh(new THREE.CylinderGeometry(.18, .23, 2.6, 8), M(0xFDFBF4));
+  mm.position.set(1.8, 1.3, .7); mosque.add(mm);
+  var mt = new THREE.Mesh(new THREE.ConeGeometry(.3, .6, 8), M(0x1D9E75));
+  mt.position.set(1.8, 2.9, .7); mosque.add(mt);
+  mosque.position.set(-4.4, 0, 2.6);
+  mosque.scale.set(1, .001, 1);
+  mosque.userData.delay = 2.6;
+  city.add(mosque);
+  builds.push(mosque);
+
+  // ===== PENYU MENGAMBANG (dari Opsi 6) =====
+  var turtle = new THREE.Group();
+  var tshell = new THREE.Mesh(new THREE.SphereGeometry(1.2, 9, 7), M(0x085041));
+  tshell.scale.set(1, .6, 1.2);
+  tshell.position.y = .44;
+  turtle.add(tshell);
+  var tshellTop = new THREE.Mesh(new THREE.SphereGeometry(.95, 7, 5), M(0x0F6E56));
+  tshellTop.scale.set(1, .62, 1.18);
+  tshellTop.position.y = .65;
+  turtle.add(tshellTop);
+  var thexC = new THREE.Mesh(new THREE.CylinderGeometry(.34, .34, .14, 6), M(0xEF9F27,{emissive:0x6b4408}));
+  thexC.position.y = 1.22;
+  turtle.add(thexC);
+  var thexA = new THREE.Mesh(new THREE.CylinderGeometry(.24, .24, .11, 6), M(0x2471A3));
+  thexA.position.set(.5, 1.12, .4); thexA.rotation.z = -.3;
+  turtle.add(thexA);
+  var thexB = new THREE.Mesh(new THREE.CylinderGeometry(.24, .24, .11, 6), M(0x8E44AD));
+  thexB.position.set(-.5, 1.12, .4); thexB.rotation.z = .3;
+  turtle.add(thexB);
+  var thexD = new THREE.Mesh(new THREE.CylinderGeometry(.22, .22, .11, 6), M(0x1E8449));
+  thexD.position.set(0, 1.14, -.62); thexD.rotation.x = .32;
+  turtle.add(thexD);
+  var thead = new THREE.Mesh(new THREE.SphereGeometry(.5, 10, 8), M(0x2EAF73));
+  thead.position.set(0, .5, 1.48);
+  turtle.add(thead);
+  var teyeL = new THREE.Mesh(new THREE.SphereGeometry(.13, 8, 6), M(0xFFFFFF,{roughness:.4}));
+  teyeL.position.set(-.21, .65, 1.84); turtle.add(teyeL);
+  var teyeR = teyeL.clone(); teyeR.position.x = .21; turtle.add(teyeR);
+  var tpupL = new THREE.Mesh(new THREE.SphereGeometry(.065, 8, 6), M(0x042C53,{roughness:.3}));
+  tpupL.position.set(-.21, .66, 1.94); turtle.add(tpupL);
+  var tpupR = tpupL.clone(); tpupR.position.x = .21; turtle.add(tpupR);
+  function mkFlipper(x, z, rz){
+    var f = new THREE.Mesh(new THREE.SphereGeometry(.5, 8, 6), M(0x1D9E75));
+    f.scale.set(1.25, .25, .55);
+    f.position.set(x, .34, z);
+    f.rotation.z = rz;
+    return f;
+  }
+  var tfl1 = mkFlipper(-1.2, .64, .35), tfl2 = mkFlipper(1.2, .64, -.35),
+      tfl3 = mkFlipper(-1.0, -.76, .3),  tfl4 = mkFlipper(1.0, -.76, -.3);
+  [tfl1, tfl2, tfl3, tfl4].forEach(function(f){ turtle.add(f); });
+  turtle.position.set(5.5, 6.0, 0);
+  city.add(turtle);
+
+  // Pohon
+  function tree(x, z, s){
+    var g = new THREE.Group();
+    var tr = new THREE.Mesh(new THREE.CylinderGeometry(.08*s, .11*s, .45*s, 6), M(0x8A5A2B));
+    tr.position.y = .22*s;
+    var tp = new THREE.Mesh(new THREE.ConeGeometry(.4*s, .9*s, 6), M(0x0F6E56));
+    tp.position.y = .85*s;
+    g.add(tr); g.add(tp);
+    g.position.set(x, 0, z);
+    return g;
+  }
+  [[-1.6,-2.6,1],[-2.8,1.6,1.2],[1.7,2.6,1],[2.7,-1.7,.9],[-6.4,5.6,1.1],[6.3,-6.2,1],[6.4,6.3,.9],[-6.3,-6.4,1]].forEach(function(p){ city.add(tree(p[0],p[1],p[2])); });
+
+  // Koin melayang
+  var coins = [];
+  var coinGeo = new THREE.CylinderGeometry(.45, .45, .14, 18);
+  var coinMat = M(0xF5C518, { roughness:.3, metalness:.55, emissive:0x5c4503 });
+  [[-4.6,4.6,-4.6],[4.4,6.4,-4.4],[2.1,6.2,5.1],[-4.4,4.4,2.6],[0,5.6,0]].forEach(function(p,i){
+    var c = new THREE.Mesh(coinGeo, coinMat);
+    c.position.set(p[0], p[1], p[2]);
+    c.rotation.z = Math.PI/2;
+    c.userData = { baseY: p[1], ph: i*1.4 };
+    coins.push(c); city.add(c);
+  });
+
+  scene.add(city);
+
+  // Awan lembut
+  function cloud(x,y,z,s){
+    var g = new THREE.Group();
+    var m = M(0xFFFFFF,{roughness:1});
+    [[0,0,0,1],[.9,.18,.2,.7],[-1,.1,-.1,.75],[.2,.4,-.3,.6]].forEach(function(b){
+      var p = new THREE.Mesh(new THREE.SphereGeometry(.8*b[3]*s, 8, 6), m);
+      p.position.set(b[0]*s, b[1]*s, b[2]*s);
+      g.add(p);
+    });
+    g.position.set(x,y,z);
+    return g;
+  }
+  var clouds = [cloud(-9,8,-6,1.2), cloud(10,9.5,-8,1), cloud(2,10,-12,1.4)];
+  clouds.forEach(function(c){ scene.add(c); });
+
+  // Drag rotate
+  var targetRot = .12, rot = .12, dragging = false, lastX = 0, dragged = false;
+  host.addEventListener('pointerdown', function(e){ dragging = true; lastX = e.clientX; });
+  addEventListener('pointermove', function(e){
+    if(!dragging) return;
+    targetRot += (e.clientX - lastX) * .007;
+    lastX = e.clientX;
+    if(!dragged && hint){ dragged = true; hint.style.opacity = '0'; hint.style.transition = 'opacity .6s'; }
+  });
+  addEventListener('pointerup', function(){ dragging = false; });
+  function fitRenderer(){
+    var w = host.clientWidth, h = host.clientHeight;
+    if(!w || !h) return;
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+    renderer.setSize(w, h);
+  }
+  addEventListener('resize', fitRenderer);
+  if (window.ResizeObserver) { new ResizeObserver(fitRenderer).observe(host); }
+  fitRenderer();
+
+  function easeOutBack(x){ var c1 = 1.70158, c3 = c1 + 1; return 1 + c3*Math.pow(x-1,3) + c1*Math.pow(x-1,2); }
+  var t = 0;
+  function frame(){
+    requestAnimationFrame(frame);
+    var fx = (window.__fx != null ? window.__fx : .7);
+    t += .016;
+    if(!dragging && !reduce) targetRot += .0017 * fx;
+    rot += (targetRot - rot) * .08;
+    city.rotation.y = rot;
+    builds.forEach(function(b){
+      var p = Math.min(Math.max((t - b.userData.delay) / 1.1, 0), 1);
+      var s = p === 0 ? .001 : easeOutBack(p);
+      b.scale.y = Math.max(s, .001);
+    });
+
+    coins.forEach(function(c){
+      c.position.y = c.userData.baseY + Math.sin(t*1.3 + c.userData.ph) * .35 * fx;
+      c.rotation.y += .02 * (fx + .2);
+    });
+    clouds.forEach(function(c, i){
+      c.position.x += .004 * (i+1) * fx;
+      if(c.position.x > 16) c.position.x = -16;
+    });
+    // penyu mengambang
+    if(!reduce){
+      var tAngle = t * .15;
+      turtle.position.x = Math.cos(tAngle) * 5.5;
+      turtle.position.z = Math.sin(tAngle) * 5.5;
+      turtle.position.y = 6.0 + Math.sin(t * 1.1) * .55 * fx;
+      turtle.rotation.y = -tAngle;
+      turtle.rotation.z = Math.sin(t * .9) * .06 * fx;
+      turtle.rotation.x = Math.sin(t * 1.1 + 1) * .04 * fx;
+      var tPad = Math.sin(t * 2.4) * .5 * fx;
+      tfl1.rotation.z = .35 + tPad * .55;
+      tfl2.rotation.z = -.35 - tPad * .55;
+      tfl3.rotation.z = .3 - tPad * .4;
+      tfl4.rotation.z = -.3 + tPad * .4;
+    }
+    renderer.render(scene, camera);
+  }
+  frame();
+})();
+// Nav stick
+(function(){
+  var nav = document.getElementById('nav');
+  addEventListener('scroll', function(){ nav.classList.toggle('stuck', scrollY > 40); }, {passive:true});
+})();
+// Scroll reveal
+(function(){
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, {threshold:.15});
+  document.querySelectorAll('.rv').forEach(function(el){ io.observe(el); });
+})();
+</script>
+
+
+</body>
+</html>
