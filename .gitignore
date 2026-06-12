@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# arsip zip aset (sudah diekstrak ke public/assets)
+/asset-archives

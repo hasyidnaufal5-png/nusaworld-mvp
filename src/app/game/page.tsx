@@ -1,11 +1,12 @@
-import Placeholder from "@/components/Placeholder";
+import type { Metadata } from "next";
+import GameViewer from "./_components/GameViewer";
+
+export const metadata: Metadata = {
+  title: "Dunia Game — Galeri Aset 3D | NusaWorld",
+  description:
+    "Viewer aset 3D NusaWorld: jelajahi model bangunan, karakter, dan hewan untuk Dunia Game.",
+};
 
 export default function GamePage() {
-  return (
-    <Placeholder
-      emoji="🏙️"
-      title="Dunia Game"
-      desc="Kota virtual lintas bahasa tempat koin belajarmu jadi bangunan. Dunia Game sedang dibangun pada tahap berikutnya."
-    />
-  );
+  return <GameViewer />;
 }
