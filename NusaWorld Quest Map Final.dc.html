@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Nunito',sans-serif;background:#F2F8FB;-webkit-font-smoothing:antialiased}
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+  @keyframes ringpulse{0%{box-shadow:0 0 0 0 rgba(27,108,168,.35)}70%{box-shadow:0 0 0 14px rgba(27,108,168,0)}100%{box-shadow:0 0 0 0 rgba(27,108,168,0)}}
+</style>
+</helmet>
+<div data-screen-label="Quest Map Final" style="height:100vh;min-height:780px;display:flex;flex-direction:column;background:#F2F8FB;overflow:hidden">
+
+  <!-- ===== TOPBAR ===== -->
+  <div style="display:flex;align-items:center;gap:18px;padding:14px 26px;background:#fff;border-bottom:1px solid rgba(10,40,71,.08);flex-shrink:0">
+    <div style="display:flex;align-items:center;gap:9px;font-size:20px;font-weight:900;letter-spacing:-.4px"><span style="width:36px;height:36px;border-radius:11px;background:#1B6CA8;display:grid;place-items:center"><svg viewBox="0 0 64 56" width="23" height="21"><ellipse cx="15" cy="40" rx="8" ry="5" fill="#1D9E75"/><ellipse cx="49" cy="40" rx="8" ry="5" fill="#1D9E75"/><ellipse cx="32" cy="34" rx="20" ry="15" fill="#2EAF73"/><circle cx="32" cy="16" r="11" fill="#2EAF73"/><circle cx="28.5" cy="14" r="2.3" fill="#042C53"/><circle cx="35.5" cy="14" r="2.3" fill="#042C53"/><path d="M28.5 19 Q32 21.6 35.5 19" stroke="#042C53" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></span><span><span style="color:#1B6CA8">Nusa</span><span style="color:#2EAF73">World</span></span></div>
+    <div style="display:flex;gap:5px;background:#F2F8FB;border:1px solid rgba(10,40,71,.07);padding:4px;border-radius:99px">
+      <span style="padding:8px 18px;border-radius:99px;background:#2EAF73;color:#fff;font-size:13.5px;font-weight:800;box-shadow:0 2px 0 #1D9E75">Beranda</span>
+      <span style="padding:8px 18px;border-radius:99px;color:#51718B;font-size:13.5px;font-weight:700">Kelas</span>
+      <span style="padding:8px 18px;border-radius:99px;color:#51718B;font-size:13.5px;font-weight:700">Dunia Game</span>
+      <span style="padding:8px 18px;border-radius:99px;color:#51718B;font-size:13.5px;font-weight:700">Profil</span>
+    </div>
+    <div style="margin-left:auto;display:flex;align-items:center;gap:10px">
+      <div style="display:flex;align-items:center;gap:8px;background:#FFF6D6;border:1px solid #F0DD96;padding:8px 16px 8px 8px;border-radius:99px"><span style="width:25px;height:25px;border-radius:50%;background:#F5C518;display:grid;place-items:center;font-size:12px;font-weight:900;color:#7A5E04;box-shadow:inset 0 -2px 0 rgba(0,0,0,.12)">ن</span><span style="font-size:15px;font-weight:900;color:#7A5E04">1.240</span></div>
+      <div style="display:flex;align-items:center;gap:6px;background:#FFE6D8;border:1px solid #F6C3A8;padding:8px 15px;border-radius:99px"><span style="font-size:15px">🔥</span><span style="font-size:15px;font-weight:900;color:#C0552A">7</span><span style="font-size:12.5px;font-weight:700;color:#C0552A">hari</span></div>
+      <div style="display:flex;align-items:center;gap:9px;background:#F2F8FB;border:1px solid rgba(10,40,71,.08);padding:5px 14px 5px 5px;border-radius:99px"><span style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#5DCAA5,#1B6CA8);display:grid;place-items:center;font-size:14px;font-weight:900;color:#fff">Z</span><span style="font-size:13.5px;font-weight:800;color:#0A2847">Zahra</span></div>
+    </div>
+  </div>
+
+  <div style="flex:1;display:flex;min-height:0">
+
+    <!-- ===== QUEST MAP ===== -->
+    <div style="flex:1;min-width:0;position:relative;background:linear-gradient(180deg,#BBDFF5 0%,#9FD4EC 38%,#84CBC9 100%);overflow:hidden">
+
+      <!-- sea + islands + paths -->
+      <svg viewBox="0 0 1050 720" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%">
+        <!-- clouds -->
+        <ellipse cx="150" cy="60" rx="55" ry="17" fill="rgba(255,255,255,.75)"></ellipse>
+        <ellipse cx="190" cy="50" rx="35" ry="13" fill="rgba(255,255,255,.75)"></ellipse>
+        <ellipse cx="500" cy="44" rx="45" ry="14" fill="rgba(255,255,255,.6)"></ellipse>
+        <ellipse cx="940" cy="80" rx="50" ry="15" fill="rgba(255,255,255,.65)"></ellipse>
+        <!-- wave marks -->
+        <path d="M80 640 q14 -8 28 0" stroke="rgba(255,255,255,.45)" stroke-width="3" fill="none" stroke-linecap="round"></path>
+        <path d="M540 660 q14 -8 28 0" stroke="rgba(255,255,255,.4)" stroke-width="3" fill="none" stroke-linecap="round"></path>
+        <path d="M950 640 q14 -8 28 0" stroke="rgba(255,255,255,.4)" stroke-width="3" fill="none" stroke-linecap="round"></path>
+        <path d="M460 120 q14 -8 28 0" stroke="rgba(255,255,255,.35)" stroke-width="3" fill="none" stroke-linecap="round"></path>
+        <path d="M250 250 q14 -8 28 0" stroke="rgba(255,255,255,.35)" stroke-width="3" fill="none" stroke-linecap="round"></path>
+
+        <!-- MAIN ISLAND (fondasi: L1+L2) -->
+        <ellipse cx="265" cy="445" rx="252" ry="142" fill="#EFD9A7"></ellipse>
+        <ellipse cx="265" cy="436" rx="234" ry="126" fill="#2EAF73"></ellipse>
+        <circle cx="120" cy="380" r="20" fill="#1D9E75"></circle><rect x="116" y="392" width="8" height="15" fill="#8A5A2B"></rect>
+        <circle cx="395" cy="500" r="17" fill="#1D9E75"></circle><rect x="392" y="510" width="7" height="13" fill="#8A5A2B"></rect>
+        <circle cx="180" cy="540" r="14" fill="#0F6E56"></circle><rect x="177.5" y="548" width="5" height="11" fill="#8A5A2B"></rect>
+
+        <!-- UMROH ISLAND -->
+        <ellipse cx="680" cy="196" rx="132" ry="64" fill="#EFD9A7"></ellipse>
+        <ellipse cx="680" cy="190" rx="118" ry="54" fill="#2EAF73"></ellipse>
+        <circle cx="600" cy="172" r="12" fill="#1D9E75"></circle><rect x="597.8" y="179" width="4.5" height="9" fill="#8A5A2B"></rect>
+        <circle cx="765" cy="206" r="11" fill="#0F6E56"></circle><rect x="763" y="212" width="4" height="8" fill="#8A5A2B"></rect>
+
+        <!-- PERCAKAPAN ISLAND -->
+        <ellipse cx="806" cy="352" rx="104" ry="50" fill="#EFD9A7"></ellipse>
+        <ellipse cx="806" cy="347" rx="92" ry="42" fill="#5DCAA5"></ellipse>
+        <circle cx="745" cy="335" r="10" fill="#1D9E75"></circle><rect x="743.2" y="341" width="4" height="8" fill="#8A5A2B"></rect>
+
+        <!-- BISNIS ISLAND -->
+        <ellipse cx="872" cy="518" rx="100" ry="48" fill="#EFD9A7"></ellipse>
+        <ellipse cx="872" cy="513" rx="88" ry="40" fill="#5DCAA5"></ellipse>
+        <circle cx="938" cy="500" r="10" fill="#1D9E75"></circle><rect x="936.2" y="506" width="4" height="8" fill="#8A5A2B"></rect>
+
+        <!-- TRAVEL ISLAND -->
+        <ellipse cx="688" cy="610" rx="96" ry="46" fill="#EFD9A7"></ellipse>
+        <ellipse cx="688" cy="605" rx="84" ry="38" fill="#5DCAA5"></ellipse>
+        <circle cx="624" cy="592" r="10" fill="#1D9E75"></circle><rect x="622.2" y="598" width="4" height="8" fill="#8A5A2B"></rect>
+
+        <!-- PATHS -->
+        <!-- L1 -> L2 : completed, solid green -->
+        <path d="M150 498 Q250 470 372 352" fill="none" stroke="#1D9E75" stroke-width="8" stroke-linecap="round"></path>
+        <path d="M150 498 Q250 470 372 352" fill="none" stroke="#fff" stroke-width="2.5" stroke-dasharray="1,14" stroke-linecap="round"></path>
+        <!-- L2 -> Umroh : featured gold dashed -->
+        <path d="M400 320 Q520 240 612 200" fill="none" stroke="#F5C518" stroke-width="8" stroke-dasharray="2,16" stroke-linecap="round"></path>
+        <!-- L2 -> Percakapan : locked dashed -->
+        <path d="M412 340 Q600 350 738 345" fill="none" stroke="rgba(4,44,83,.22)" stroke-width="5" stroke-dasharray="2,14" stroke-linecap="round"></path>
+        <!-- L2 -> Bisnis : locked dashed -->
+        <path d="M408 352 Q640 440 800 500" fill="none" stroke="rgba(4,44,83,.22)" stroke-width="5" stroke-dasharray="2,14" stroke-linecap="round"></path>
+        <!-- L2 -> Travel : locked dashed -->
+        <path d="M398 360 Q480 540 616 592" fill="none" stroke="rgba(4,44,83,.22)" stroke-width="5" stroke-dasharray="2,14" stroke-linecap="round"></path>
+        <!-- coins along gold path -->
+        <circle cx="488" cy="262" r="10" fill="#F5C518" stroke="#D9A90C" stroke-width="2"></circle>
+        <circle cx="552" cy="226" r="8" fill="#F5C518" stroke="#D9A90C" stroke-width="2"></circle>
+        <!-- little boat -->
+        <g transform="translate(505,470)">
+          <path d="M-26 10 Q0 22 26 10 L18 0 L-18 0 Z" fill="#C95C36"></path>
+          <rect x="-2" y="-30" width="3.5" height="30" fill="#8A5A2B"></rect>
+          <path d="M3 -30 L24 -8 L3 -8 Z" fill="#FDFBF4"></path>
+        </g>
+      </svg>
+
+      <!-- map title -->
+      <div style="position:absolute;top:18px;left:22px;z-index:5">
+        <div style="background:rgba(255,255,255,.85);backdrop-filter:blur(6px);border:1px solid rgba(10,40,71,.08);border-radius:16px;padding:12px 18px;box-shadow:0 8px 24px rgba(10,40,71,.1)">
+          <div style="font-size:17px;font-weight:900;color:#0A2847">🗺️ Peta Petualangan</div>
+          <div style="font-size:12.5px;font-weight:700;color:#51718B">Jalur belajar bahasa Arab-mu, Zahra</div>
+        </div>
+      </div>
+
+      <!-- legend -->
+      <div style="position:absolute;bottom:16px;left:22px;z-index:5;display:flex;gap:8px;flex-wrap:wrap">
+        <span style="display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.88);border:1px solid rgba(10,40,71,.08);padding:6px 13px;border-radius:99px;font-size:12px;font-weight:800;color:#0A2847"><span style="width:14px;height:14px;border-radius:50%;background:#2EAF73;display:grid;place-items:center;color:#fff;font-size:9px;font-weight:900">✓</span>Selesai</span>
+        <span style="display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.88);border:1px solid rgba(10,40,71,.08);padding:6px 13px;border-radius:99px;font-size:12px;font-weight:800;color:#0A2847"><span style="width:14px;height:14px;border-radius:50%;background:#1B6CA8;box-shadow:0 0 0 3px rgba(27,108,168,.25)"></span>Sedang berjalan</span>
+        <span style="display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.88);border:1px solid rgba(10,40,71,.08);padding:6px 13px;border-radius:99px;font-size:12px;font-weight:800;color:#0A2847"><span style="width:14px;height:14px;border-radius:50%;background:#FFF6D6;border:2.5px solid #F5C518"></span>Terbuka</span>
+        <span style="display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.88);border:1px solid rgba(10,40,71,.08);padding:6px 13px;border-radius:99px;font-size:12px;font-weight:800;color:#51718B"><span style="font-size:12px">🔒</span>Terkunci</span>
+      </div>
+
+      <!-- ===== NODE: L1 IQRO (selesai) ===== -->
+      <div style="position:absolute;left:14.3%;top:69.2%;transform:translate(-50%,-50%);z-index:4;text-align:center;width:168px">
+        <div style="width:70px;height:70px;border-radius:50%;background:#2EAF73;border:5px solid #fff;box-shadow:0 6px 0 #1D9E75,0 12px 24px rgba(10,40,71,.22);display:grid;place-items:center;margin:0 auto;color:#fff;font-size:28px;font-weight:900">✓</div>
+        <div style="background:rgba(255,255,255,.92);border:1.5px solid rgba(46,175,115,.5);border-radius:14px;padding:8px 12px;margin-top:8px;box-shadow:0 6px 16px rgba(10,40,71,.12)">
+          <div style="font-size:13.5px;font-weight:900;color:#0A2847">L1 · Iqro</div>
+          <div style="font-size:11.5px;font-weight:800;color:#2EAF73">Selesai · 100% · +120 ن</div>
+        </div>
+      </div>
+
+      <!-- ===== NODE: L2 GRAMATIKA (sedang berjalan) ===== -->
+      <div style="position:absolute;left:36.5%;top:46%;transform:translate(-50%,-50%);z-index:6;text-align:center;width:236px">
+        <div style="display:inline-block;background:#042C53;color:#fff;font-size:11px;font-weight:900;letter-spacing:.06em;padding:5px 14px;border-radius:99px;margin-bottom:7px;box-shadow:0 4px 10px rgba(4,44,83,.3)">KAMU DI SINI</div>
+        <div style="position:relative;width:84px;height:84px;margin:0 auto">
+          <div style="width:84px;height:84px;border-radius:50%;background:#1B6CA8;border:5px solid #fff;box-shadow:0 6px 0 #0d4f80,0 14px 28px rgba(27,108,168,.35);display:grid;place-items:center;font-size:32px;animation:ringpulse 2.4s ease-out infinite">📖</div>
+          <svg viewBox="0 0 64 56" width="58" height="51" style="position:absolute;right:-38px;top:-22px;animation:bob 3s ease-in-out infinite"><ellipse cx="15" cy="40" rx="8" ry="5" fill="#1D9E75"/><ellipse cx="49" cy="40" rx="8" ry="5" fill="#1D9E75"/><ellipse cx="32" cy="34" rx="20" ry="15" fill="#2EAF73"/><path d="M32 23 L42 31 L37 42 L27 42 L22 31 Z" fill="#1D9E75"/><circle cx="32" cy="16" r="11" fill="#2EAF73"/><circle cx="24.5" cy="18" r="2.6" fill="#F0997B"/><circle cx="39.5" cy="18" r="2.6" fill="#F0997B"/><circle cx="28.5" cy="14" r="2.3" fill="#042C53"/><circle cx="35.5" cy="14" r="2.3" fill="#042C53"/><circle cx="29.2" cy="13.2" r=".8" fill="#fff"/><circle cx="36.2" cy="13.2" r=".8" fill="#fff"/><path d="M28.5 19 Q32 21.6 35.5 19" stroke="#042C53" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+        </div>
+        <div style="background:rgba(255,255,255,.95);border:2px solid #1B6CA8;border-radius:16px;padding:12px 14px;margin-top:9px;box-shadow:0 12px 28px rgba(27,108,168,.22)">
+          <div style="font-size:14.5px;font-weight:900;color:#0A2847">L2 · Gramatika</div>
+          <div style="font-size:11.5px;font-weight:700;color:#51718B;margin-bottom:9px">Nahwu &amp; Sharaf</div>
+          <div style="display:flex;align-items:center;gap:8px;justify-content:center;margin-bottom:10px">
+            <div style="display:flex;gap:4px"><span style="width:26px;height:8px;border-radius:99px;background:#2EAF73"></span><span style="width:26px;height:8px;border-radius:99px;background:#1B6CA8;box-shadow:0 0 0 2.5px rgba(27,108,168,.25)"></span><span style="width:26px;height:8px;border-radius:99px;background:#E0E8EE"></span></div>
+            <span style="font-size:11.5px;font-weight:900;color:#1B6CA8">Babak 2/3</span>
+          </div>
+          <button style="width:100%;background:#2EAF73;color:#fff;font-family:Nunito,sans-serif;font-size:13.5px;font-weight:800;padding:10px;border-radius:99px;border:none;box-shadow:0 4px 0 #1D9E75;cursor:pointer">Lanjut Quest →</button>
+        </div>
+      </div>
+
+      <!-- ===== NODE: TRACK SIAP UMROH (terbuka, featured) ===== -->
+      <div style="position:absolute;left:64.8%;top:24%;transform:translate(-50%,-50%);z-index:5;text-align:center;width:200px">
+        <div style="display:inline-block;background:#2EAF73;color:#fff;font-size:11px;font-weight:900;padding:5px 14px;border-radius:99px;margin-bottom:7px;box-shadow:0 4px 10px rgba(46,175,115,.4)">★ Paling diminati</div>
+        <div style="width:80px;height:80px;border-radius:50%;background:linear-gradient(160deg,#FFD54A,#F5C518);border:5px solid #fff;box-shadow:0 6px 0 #D9A90C,0 0 0 9px rgba(245,197,24,.22),0 14px 28px rgba(10,40,71,.2);display:grid;place-items:center;margin:0 auto;font-size:32px">🕋</div>
+        <div style="background:rgba(255,255,255,.95);border:2px solid #F5C518;border-radius:16px;padding:11px 13px;margin-top:9px;box-shadow:0 10px 26px rgba(10,40,71,.16)">
+          <div style="font-size:14.5px;font-weight:900;color:#0A2847">Track Siap Umroh</div>
+          <div style="font-size:11.5px;font-weight:700;color:#51718B;margin-bottom:9px">Terbuka · 8 minggu · 3 level</div>
+          <button style="width:100%;background:#1B6CA8;color:#fff;font-family:Nunito,sans-serif;font-size:13px;font-weight:800;padding:9px;border-radius:99px;border:none;box-shadow:0 4px 0 #0d4f80;cursor:pointer">Mulai →</button>
+        </div>
+      </div>
+
+      <!-- ===== NODE: PERCAKAPAN (terkunci - prasyarat) ===== -->
+      <div style="position:absolute;left:76.8%;top:47%;transform:translate(-50%,-50%);z-index:4;text-align:center;width:170px">
+        <div style="width:62px;height:62px;border-radius:50%;background:#C7D4DE;border:5px solid #fff;box-shadow:0 5px 0 #A9B9C6,0 10px 20px rgba(10,40,71,.15);display:grid;place-items:center;margin:0 auto;font-size:24px">🔒</div>
+        <div style="background:rgba(255,255,255,.88);border:1.5px dashed rgba(10,40,71,.22);border-radius:14px;padding:8px 11px;margin-top:8px">
+          <div style="font-size:13px;font-weight:900;color:#7E96AA">💬 Percakapan</div>
+          <div style="font-size:11px;font-weight:800;color:#9DB2C4">Selesaikan L2 dulu</div>
+        </div>
+      </div>
+
+      <!-- ===== NODE: BISNIS (terkunci - beli) ===== -->
+      <div style="position:absolute;left:83%;top:70%;transform:translate(-50%,-50%);z-index:4;text-align:center;width:170px">
+        <div style="width:62px;height:62px;border-radius:50%;background:#C7D4DE;border:5px solid #fff;box-shadow:0 5px 0 #A9B9C6,0 10px 20px rgba(10,40,71,.15);display:grid;place-items:center;margin:0 auto;font-size:24px">🔒</div>
+        <div style="background:rgba(255,255,255,.88);border:1.5px dashed rgba(10,40,71,.22);border-radius:14px;padding:8px 11px;margin-top:8px">
+          <div style="font-size:13px;font-weight:900;color:#7E96AA">💼 Arabic Bisnis</div>
+          <div style="font-size:11px;font-weight:800;color:#9DB2C4">Beli level ini · <span style="color:#9A7A06">Rp 99rb</span></div>
+        </div>
+      </div>
+
+      <!-- ===== NODE: TRAVEL (terkunci - beli) ===== -->
+      <div style="position:absolute;left:65.5%;top:84%;transform:translate(-50%,-50%);z-index:4;text-align:center;width:170px">
+        <div style="width:62px;height:62px;border-radius:50%;background:#C7D4DE;border:5px solid #fff;box-shadow:0 5px 0 #A9B9C6,0 10px 20px rgba(10,40,71,.15);display:grid;place-items:center;margin:0 auto;font-size:24px">🔒</div>
+        <div style="background:rgba(255,255,255,.88);border:1.5px dashed rgba(10,40,71,.22);border-radius:14px;padding:8px 11px;margin-top:8px">
+          <div style="font-size:13px;font-weight:900;color:#7E96AA">✈️ Arabic Travel</div>
+          <div style="font-size:11px;font-weight:800;color:#9DB2C4">Beli level ini · <span style="color:#9A7A06">Rp 99rb</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== RIGHT RAIL ===== -->
+    <aside style="width:300px;flex-shrink:0;border-left:1px solid rgba(10,40,71,.08);padding:20px;display:flex;flex-direction:column;gap:14px;background:#F8FBFD;overflow-y:auto">
+      <div style="background:linear-gradient(135deg,#1B6CA8,#0d4f80);border-radius:18px;padding:18px;color:#fff">
+        <div style="font-size:12.5px;font-weight:800;color:#FCE08A">⭐ LEVEL 4</div>
+        <div style="font-size:17px;font-weight:900;margin:2px 0 12px">Penjelajah Hijaiyah</div>
+        <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:800;margin-bottom:6px"><span>Menuju Lv 5</span><span>320/500 XP</span></div>
+        <div style="height:12px;background:rgba(255,255,255,.18);border-radius:99px;overflow:hidden"><div style="width:64%;height:100%;background:linear-gradient(90deg,#F5C518,#FFD54A);border-radius:99px"></div></div>
+      </div>
+      <div style="background:#fff;border:1px solid rgba(10,40,71,.08);border-radius:18px;padding:17px">
+        <div style="font-size:15px;font-weight:900;color:#0A2847;margin-bottom:13px">🎯 Misi Harian</div>
+        <div style="display:flex;flex-direction:column;gap:11px">
+          <div style="display:flex;align-items:center;gap:10px"><span style="width:22px;height:22px;border-radius:7px;background:#2EAF73;display:grid;place-items:center;color:#fff;font-weight:900;font-size:12px;flex-shrink:0">✓</span><span style="font-size:13px;font-weight:800;color:#0A2847;opacity:.6;text-decoration:line-through;flex:1">Selesaikan 1 quest</span><span style="font-size:11.5px;font-weight:800;color:#9A7A06">+20 ن</span></div>
+          <div style="display:flex;align-items:center;gap:10px"><span style="width:22px;height:22px;border-radius:7px;border:2px solid rgba(10,40,71,.15);flex-shrink:0"></span><div style="flex:1"><div style="font-size:13px;font-weight:800;color:#0A2847">Kumpulkan 50 koin</div><div style="height:5px;background:#E8EEF2;border-radius:99px;margin-top:5px;overflow:hidden"><div style="width:40%;height:100%;background:#F5C518"></div></div></div><span style="font-size:13px">🏅</span></div>
+          <div style="display:flex;align-items:center;gap:10px"><span style="width:22px;height:22px;border-radius:7px;border:2px solid rgba(10,40,71,.15);flex-shrink:0"></span><span style="font-size:13px;font-weight:800;color:#0A2847;flex:1">Latihan 5 menit</span><span style="font-size:11.5px;font-weight:800;color:#1B6CA8">+10 XP</span></div>
+        </div>
+      </div>
+      <div style="background:#fff;border:1px solid rgba(10,40,71,.08);border-radius:18px;padding:17px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px"><span style="font-size:15px;font-weight:900;color:#0A2847">🏆 Lencana</span><span style="font-size:12px;font-weight:800;color:#1B6CA8">4/12</span></div>
+        <div style="display:flex;gap:9px;flex-wrap:wrap">
+          <div style="width:44px;height:44px;border-radius:12px;background:#FFF6D6;display:grid;place-items:center;font-size:21px;border:1.5px solid #F0DD96">📖</div>
+          <div style="width:44px;height:44px;border-radius:12px;background:#FFE6D8;display:grid;place-items:center;font-size:21px;border:1.5px solid #F6C3A8">🔥</div>
+          <div style="width:44px;height:44px;border-radius:12px;background:#E1F5EE;display:grid;place-items:center;font-size:21px;border:1.5px solid rgba(46,175,115,.4)">🐢</div>
+          <div style="width:44px;height:44px;border-radius:12px;background:#E3F0F9;display:grid;place-items:center;font-size:21px;border:1.5px solid #BFDCEF">💬</div>
+          <div style="width:44px;height:44px;border-radius:12px;background:#F4F7F9;display:grid;place-items:center;font-size:18px;border:1.5px dashed rgba(10,40,71,.18);opacity:.5">🔒</div>
+        </div>
+      </div>
+      <div style="background:linear-gradient(160deg,#042C53,#0E3A66);border-radius:18px;padding:16px 17px;color:#fff">
+        <div style="font-size:14px;font-weight:900;margin-bottom:4px">🏙️ Kotamu</div>
+        <div style="font-size:12px;font-weight:600;color:rgba(255,255,255,.65);margin-bottom:10px">3 bangunan tumbuh dari belajarmu</div>
+        <svg viewBox="0 0 260 84" style="width:100%;display:block"><ellipse cx="130" cy="62" rx="120" ry="19" fill="#0D6147"/><ellipse cx="130" cy="58" rx="108" ry="16" fill="#2EAF73"/><rect x="55" y="35" width="28" height="23" rx="3" fill="#FDFBF4"/><path d="M53 37 l16 -12 l16 12 z" fill="#1D9E75"/><rect x="115" y="27" width="24" height="31" rx="3" fill="#A9D5EE"/><path d="M113 29 l14 -11 l14 11 z" fill="#1B6CA8"/><rect x="168" y="39" width="26" height="19" rx="3" fill="#F0C04A"/><path d="M166 41 l15 -11 l15 11 z" fill="#D9A90C"/></svg>
+        <button style="width:100%;background:rgba(93,202,165,.18);color:#5DCAA5;border:1px solid rgba(93,202,165,.4);font-family:Nunito,sans-serif;font-size:12.5px;font-weight:800;padding:9px;border-radius:99px;cursor:pointer;margin-top:11px">Kunjungi Dunia Game →</button>
+      </div>
+    </aside>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

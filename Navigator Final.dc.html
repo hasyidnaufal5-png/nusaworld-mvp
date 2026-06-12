@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Noto+Naskh+Arabic:wght@500;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:#F4F8FB;color:#0A2847;line-height:1.5;-webkit-font-smoothing:antialiased}
+input,select,textarea,button{font-family:'Nunito',sans-serif}
+::-webkit-scrollbar{width:11px;height:11px}
+::-webkit-scrollbar-thumb{background:#C2D0DC;border-radius:99px;border:3px solid #F4F8FB}
+input:focus,select:focus,textarea:focus{outline:2px solid #1B6CA8;outline-offset:1px}
+</style>
+</helmet>
+
+<div data-screen-label="App Navigator" style="display:flex;height:100vh;min-width:1180px;background:#F4F8FB;overflow:hidden">
+
+  <!-- ============ SIDEBAR ============ -->
+  <aside style="width:236px;flex-shrink:0;background:#fff;border-right:1.5px solid rgba(10,40,71,.08);padding:22px 16px;display:flex;flex-direction:column;gap:5px">
+    <div style="display:flex;align-items:center;gap:9px;font-size:19px;font-weight:900;letter-spacing:-.4px;padding:4px 8px 18px">
+      <span style="width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,#1B6CA8,#2EAF73);display:grid;place-items:center;color:#fff;font-size:15px">N</span>
+      <span><span style="color:#1B6CA8">Nusa</span><span style="color:#2EAF73">World</span></span>
+    </div>
+    <div style="font-size:11px;font-weight:800;color:#9AAEC0;letter-spacing:.1em;padding:6px 10px 4px">MENU</div>
+    <sc-for list="{{ nav }}" as="n" hint-placeholder-count="6">
+      <div onClick="{{ n.go }}" style="display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:12px;font-size:14.5px;cursor:pointer;font-weight:{{ n.fw }};color:{{ n.co }};background:{{ n.bg }};box-shadow:{{ n.sh }}"><span style="font-size:17px">{{ n.icon }}</span>{{ n.label }}</div>
+    </sc-for>
+    <div style="margin-top:auto;background:#042C53;border-radius:16px;padding:16px;color:#fff">
+      <div style="font-size:13.5px;font-weight:800;margin-bottom:3px">Mode Navigator</div>
+      <div style="font-size:12px;color:rgba(255,255,255,.6);font-weight:600;line-height:1.45">Susun kurikulum, soal quest, dan pantau murid.</div>
+    </div>
+  </aside>
+
+  <!-- ============ MAIN ============ -->
+  <div style="flex:1;display:flex;flex-direction:column;min-width:0">
+
+    <!-- TOPBAR -->
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:20px;padding:18px 30px;background:#fff;border-bottom:1.5px solid rgba(10,40,71,.08);flex-shrink:0">
+      <div>
+        <div style="font-size:12px;font-weight:700;color:#9AAEC0;margin-bottom:1px">{{ crumb }}</div>
+        <div style="font-size:23px;font-weight:900;letter-spacing:-.5px;line-height:1.2">{{ pageTitle }}</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:16px">
+        <div style="display:flex;align-items:center;gap:11px;padding:5px 14px 5px 5px;border:1.5px solid rgba(10,40,71,.1);border-radius:99px">
+          <span style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#1B6CA8,#042C53);color:#fff;display:grid;place-items:center;font-size:13px;font-weight:900">UF</span>
+          <div style="line-height:1.25"><div style="font-size:13.5px;font-weight:800">Ustadz Faiz</div><div style="font-size:11.5px;color:#8499AB;font-weight:700">Navigator</div></div>
+        </div>
+        <sc-if value="{{ showTambah }}" hint-placeholder-val="{{ true }}">
+          <button onClick="{{ openNew }}" style="display:inline-flex;align-items:center;gap:8px;background:#2EAF73;color:#fff;font-size:14px;font-weight:800;padding:11px 20px;border:none;border-radius:11px;cursor:pointer;white-space:nowrap"><span style="font-size:17px;line-height:1">+</span>Tambah Kelas</button>
+        </sc-if>
+      </div>
+    </div>
+
+    <!-- CONTENT -->
+    <div style="flex:1;overflow-y:auto;padding:24px 30px 40px">
+
+      <!-- ===== HALAMAN KELAS ===== -->
+      <sc-if value="{{ isKelas }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;flex-direction:column;gap:20px">
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px">
+            <sc-for list="{{ summary }}" as="s" hint-placeholder-count="4">
+              <div style="background:#fff;border:1.5px solid rgba(10,40,71,.1);border-radius:16px;padding:17px 19px;display:flex;align-items:center;gap:14px">
+                <span style="width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-size:21px;background:{{ s.bg }};flex-shrink:0">{{ s.icon }}</span>
+                <div><div style="font-size:27px;font-weight:900;letter-spacing:-1px;line-height:1">{{ s.value }}</div><div style="font-size:12.5px;font-weight:700;color:#51718B;margin-top:3px">{{ s.label }}</div></div>
+              </div>
+            </sc-for>
+          </div>
+
+          <div style="background:#fff;border:1.5px solid rgba(10,40,71,.1);border-radius:16px;overflow:hidden">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:15px 20px;border-bottom:1.5px solid rgba(10,40,71,.08)">
+              <div style="font-size:16px;font-weight:900">Daftar Kelas</div>
+              <div style="display:flex;gap:9px">
+                <span style="display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:700;color:#8499AB;border:1.5px solid rgba(10,40,71,.1);border-radius:10px;padding:8px 13px;min-width:200px">🔍 Cari kelas…</span>
+                <span style="display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:800;color:#1B6CA8;border:1.5px solid rgba(27,108,168,.25);border-radius:10px;padding:8px 13px;cursor:pointer">Semua Track ▾</span>
+                <span style="display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:800;color:#1B6CA8;border:1.5px solid rgba(27,108,168,.25);border-radius:10px;padding:8px 13px;cursor:pointer">Semua Status ▾</span>
+              </div>
+            </div>
+            <table style="width:100%;border-collapse:collapse">
+              <thead><tr>
+                <th style="text-align:left;padding:12px 20px;font-size:11.5px;font-weight:800;color:#8499AB;letter-spacing:.05em;background:#F4F8FB;border-bottom:1.5px solid rgba(10,40,71,.08)">NAMA KELAS</th>
+                <th style="text-align:left;padding:12px 14px;font-size:11.5px;font-weight:800;color:#8499AB;letter-spacing:.05em;background:#F4F8FB;border-bottom:1.5px solid rgba(10,40,71,.08)">TRACK</th>
+                <th style="text-align:left;padding:12px 14px;font-size:11.5px;font-weight:800;color:#8499AB;letter-spacing:.05em;background:#F4F8FB;border-bottom:1.5px solid rgba(10,40,71,.08)">LEVEL</th>
+                <th style="text-align:left;padding:12px 14px;font-size:11.5px;font-weight:800;color:#8499AB;letter-spacing:.05em;background:#F4F8FB;border-bottom:1.5px solid rgba(10,40,71,.08)">JUMLAH SOAL</th>
+                <th style="text-align:left;padding:12px 14px;font-size:11.5px;font-weight:800;color:#8499AB;letter-spacing:.05em;background:#F4F8FB;border-bottom:1.5px solid rgba(10,40,71,.08)">STATUS</th>
+                <th style="text-align:right;padding:12px 20px;font-size:11.5px;font-weight:800;color:#8499AB;letter-spacing:.05em;background:#F4F8FB;border-bottom:1.5px solid rgba(10,40,71,.08)">AKSI</th>
+              </tr></thead>
+              <tbody>
+                <sc-for list="{{ classes }}" as="c" hint-placeholder-count="7">
+                  <tr>
+                    <td style="padding:13px 20px;border-bottom:1px solid rgba(10,40,71,.06);font-size:14.5px;font-weight:800">{{ c.name }}</td>
+                    <td style="padding:13px 14px;border-bottom:1px solid rgba(10,40,71,.06)"><span style="display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border-radius:99px;font-size:12.5px;font-weight:800;background:{{ c.trackBg }};color:{{ c.trackColor }}"><span>{{ c.trackIcon }}</span>{{ c.track }}</span></td>
+                    <td style="padding:13px 14px;border-bottom:1px solid rgba(10,40,71,.06);font-size:14px;font-weight:800;color:#51718B">{{ c.level }}</td>
+                    <td style="padding:13px 14px;border-bottom:1px solid rgba(10,40,71,.06);font-size:14px;font-weight:700;color:#51718B">{{ c.soalText }}</td>
+                    <td style="padding:13px 14px;border-bottom:1px solid rgba(10,40,71,.06)"><span style="display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border-radius:99px;font-size:12.5px;font-weight:800;background:{{ c.statusBg }};color:{{ c.statusColor }}"><span style="width:7px;height:7px;border-radius:50%;background:{{ c.statusDot }}"></span>{{ c.statusLabel }}</span></td>
+                    <td style="padding:13px 20px;border-bottom:1px solid rgba(10,40,71,.06)"><div style="display:flex;gap:8px;justify-content:flex-end"><button onClick="{{ c.open }}" style="font-size:12.5px;font-weight:800;color:#fff;background:#1B6CA8;border:none;border-radius:9px;padding:7px 14px;cursor:pointer">Edit</button><button style="font-size:12.5px;font-weight:800;color:#51718B;background:#EFF3F7;border:none;border-radius:9px;padding:7px 13px;cursor:pointer">Pratinjau</button></div></td>
+                  </tr>
+                </sc-for>
+              </tbody>
+            </table>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 20px">
+              <span style="font-size:12.5px;font-weight:700;color:#8499AB">Menampilkan 1–7 dari 24 kelas</span>
+              <div style="display:flex;gap:6px">
+                <span style="width:30px;height:30px;border-radius:8px;border:1.5px solid rgba(10,40,71,.1);display:grid;place-items:center;font-size:13px;color:#8499AB;cursor:pointer">‹</span>
+                <span style="width:30px;height:30px;border-radius:8px;background:#1B6CA8;color:#fff;display:grid;place-items:center;font-size:12.5px;font-weight:800">1</span>
+                <span style="width:30px;height:30px;border-radius:8px;border:1.5px solid rgba(10,40,71,.1);display:grid;place-items:center;font-size:12.5px;font-weight:800;color:#51718B;cursor:pointer">2</span>
+                <span style="width:30px;height:30px;border-radius:8px;border:1.5px solid rgba(10,40,71,.1);display:grid;place-items:center;font-size:12.5px;font-weight:800;color:#51718B;cursor:pointer">3</span>
+                <span style="width:30px;height:30px;border-radius:8px;border:1.5px solid rgba(10,40,71,.1);display:grid;place-items:center;font-size:13px;color:#8499AB;cursor:pointer">›</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- ===== HALAMAN PEMBUAT SOAL ===== -->
+      <sc-if value="{{ isSoal }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <!-- CONTEXT BAR -->
+          <div style="display:flex;align-items:center;gap:12px;background:#fff;border:1.5px solid rgba(10,40,71,.1);border-radius:14px;padding:12px 16px">
+            <span style="font-size:12.5px;font-weight:800;color:#8499AB">KELAS</span>
+            <select style="font-size:14px;font-weight:800;color:#0A2847;border:1.5px solid rgba(10,40,71,.15);border-radius:10px;padding:8px 12px;background:#FBFDFE;cursor:pointer;min-width:220px">
+              <option>L2 Fi'l Madhi</option>
+              <option>L1 Iqro - Kelas A</option>
+              <option>L2 Isim &amp; Harf</option>
+              <option>L3 Doa Umroh</option>
+            </select>
+            <span style="font-size:12.5px;font-weight:800;color:#1B6CA8;background:#E3F0F9;border-radius:99px;padding:5px 12px">{{ qListTx }}</span>
+            <div style="margin-left:auto;display:flex;gap:10px">
+              <button onClick="{{ openImport }}" style="display:inline-flex;align-items:center;gap:7px;font-size:13.5px;font-weight:800;color:#1B6CA8;background:#fff;border:1.5px solid rgba(27,108,168,.35);border-radius:11px;padding:10px 16px;cursor:pointer;white-space:nowrap">⤓ Impor JSON</button>
+              <button onClick="{{ newQ }}" style="display:inline-flex;align-items:center;gap:7px;font-size:13.5px;font-weight:800;color:#fff;background:#2EAF73;border:none;border-radius:11px;padding:10px 18px;cursor:pointer;white-space:nowrap"><span style="font-size:16px;line-height:1">+</span>Soal Baru</button>
+            </div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:300px minmax(0,1fr) 350px;gap:16px;align-items:start">
+
+            <!-- DAFTAR SOAL -->
+            <div style="background:#fff;border:1.5px solid rgba(10,40,71,.1);border-radius:16px;overflow:hidden">
+              <div style="padding:14px 16px;border-bottom:1.5px solid rgba(10,40,71,.08);font-size:14.5px;font-weight:900">Daftar Soal</div>
+              <div style="display:flex;flex-direction:column;max-height:560px;overflow-y:auto">
+                <sc-for list="{{ questions }}" as="q" hint-placeholder-count="6">
+                  <div style="padding:12px 16px;border-bottom:1px solid rgba(10,40,71,.06);display:flex;flex-direction:column;gap:8px">
+                    <div dir="rtl" style="font-family:'Noto Naskh Arabic',serif;font-size:16px;font-weight:700;line-height:1.7;color:#0A2847">{{ q.t }}</div>
+                    <div style="display:flex;align-items:center;gap:6px">
+                      <span style="font-size:10.5px;font-weight:900;padding:3px 8px;border-radius:7px;background:{{ q.bBg }};color:{{ q.bCo }}">{{ q.bChip }}</span>
+                      <span style="font-size:11px;font-weight:700;color:#8499AB">{{ q.type }}</span>
+                      <span style="display:inline-flex;align-items:center;gap:4px;font-size:10.5px;font-weight:800;padding:3px 8px;border-radius:99px;background:{{ q.stBg }};color:{{ q.stCo }};margin-left:auto"><span style="width:5px;height:5px;border-radius:50%;background:{{ q.stDot }}"></span>{{ q.status }}</span>
+                      <button onClick="{{ q.edit }}" style="font-size:11px;font-weight:800;color:#1B6CA8;background:#E3F0F9;border:none;border-radius:7px;padding:4px 9px;cursor:pointer">Edit</button>
+                      <button onClick="{{ q.del }}" style="font-size:11px;font-weight:800;color:#C0504A;background:#F8E4E2;border:none;border-radius:7px;padding:4px 9px;cursor:pointer">Hapus</button>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+
+            <!-- FORM -->
+            <div style="background:#fff;border:1.5px solid rgba(10,40,71,.1);border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:18px">
+              <div>
+                <div style="font-size:12px;font-weight:800;color:#8499AB;letter-spacing:.04em;margin-bottom:9px">TIPE SOAL</div>
+                <div style="display:flex;gap:8px;flex-wrap:wrap">
+                  <sc-for list="{{ typeChips }}" as="t" hint-placeholder-count="5">
+                    <button onClick="{{ t.pick }}" style="display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:800;padding:9px 14px;border-radius:10px;cursor:pointer;background:{{ t.bg }};color:{{ t.co }};border:1.5px solid {{ t.bd }}"><span>{{ t.icon }}</span>{{ t.label }}</button>
+                  </sc-for>
+                </div>
+              </div>
+
+              <div>
+                <div style="font-size:12px;font-weight:800;color:#8499AB;letter-spacing:.04em;margin-bottom:7px">PERTANYAAN (TEKS ARAB BERHARAKAT)</div>
+                <textarea dir="rtl" rows="2" value="{{ qText }}" onChange="{{ setQText }}" style="width:100%;font-family:'Noto Naskh Arabic',serif;font-size:22px;font-weight:700;line-height:1.9;color:#0A2847;border:1.5px solid rgba(10,40,71,.15);border-radius:12px;padding:12px 16px;background:#FBFDFE;resize:vertical"></textarea>
+              </div>
+
+              <sc-if value="{{ isAudio }}" hint-placeholder-val="{{ false }}">
+                <div>
+                  <div style="font-size:12px;font-weight:800;color:#8499AB;letter-spacing:.04em;margin-bottom:7px">FILE AUDIO (URL)</div>
+                  <input type="text" value="{{ audioUrl }}" onChange="{{ setAudioUrl }}" style="width:100%;font-size:13.5px;font-weight:700;color:#0A2847;border:1.5px solid rgba(10,40,71,.15);border-radius:11px;padding:10px 14px;background:#FBFDFE" />
+                </div>
+              </sc-if>
+              <sc-if value="{{ isVideo }}" hint-placeholder-val="{{ false }}">
+                <div>
+                  <div style="font-size:12px;font-weight:800;color:#8499AB;letter-spacing:.04em;margin-bottom:7px">LINK YOUTUBE</div>
+                  <input type="text" value="{{ qVideo }}" onChange="{{ setQVideo }}" style="width:100%;font-size:13.5px;font-weight:700;color:#0A2847;border:1.5px solid rgba(10,40,71,.15);border-radius:11px;padding:10px 14px;background:#FBFDFE" />
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ showOpts }}" hint-placeholder-val="{{ true }}">
+                <div>
+                  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px">
+                    <span style="font-size:12px;font-weight:800;color:#8499AB;letter-spacing:.04em">OPSI JAWABAN</span>
+                    <span style="font-size:11.5px;font-weight:700;color:#8499AB">klik huruf untuk menandai kunci jawaban</span>
+                  </div>
+                  <div style="display:flex;flex-direction:column;gap:8px">
+                    <sc-for list="{{ optRows }}" as="o" hint-placeholder-count="4">
+                      <div style="display:flex;align-items:center;gap:10px">
+                        <button onClick="{{ o.pick }}" title="Tandai sebagai kunci" style="width:34px;height:34px;border-radius:50%;font-size:13.5px;font-weight:900;cursor:pointer;flex-shrink:0;background:{{ o.rBg }};color:{{ o.rCo }};border:1.5px solid {{ o.rBd }}">{{ o.letter }}</button>
+                        <input type="text" value="{{ o.val }}" onChange="{{ o.set }}" style="flex:1;font-size:13.5px;font-weight:700;color:#0A2847;border:1.5px solid rgba(10,40,71,.15);border-radius:10px;padding:9px 13px;background:#FBFDFE" />
+                        <sc-if value="{{ o.isCorrect }}" hint-placeholder-val="{{ false }}"><span style="font-size:11px;font-weight:900;color:#1D9E75;background:#E1F5EE;border-radius:99px;padding:4px 10px;white-space:nowrap">✓ Kunci</span></sc-if>
+                      </div>
+                    </sc-for>
+                  </div>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ isIsian }}" hint-placeholder-val="{{ false }}">
+                <div>
+                  <div style="font-size:12px;font-weight:800;color:#8499AB;letter-spacing:.04em;margin-bottom:7px">KUNCI JAWABAN</div>
+                  <input type="text" dir="rtl" value="{{ isianKey }}" onChange="{{ setIsianKey }}" style="width:100%;font-family:'Noto Naskh Arabic',serif;font-size:19px;font-weight:700;color:#0A2847;border:1.5px solid rgba(10,40,71,.15);border-radius:11px;padding:10px 14px;background:#FBFDFE" />
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ isSusun }}" hint-placeholder-val="{{ false }}">
+                <div>
+                  <div style="font-size:12px;font-weight:800;color:#8499AB;letter-spacing:.04em;margin-bottom:7px">KATA-KATA (URUTAN BENAR = KUNCI)</div>
+                  <input type="text" dir="rtl" value="{{ words }}" onChange="{{ setWords }}" style="width:100%;font-family:'Noto Naskh Arabic',serif;font-size:19px;font-weight:700;color:#0A2847;border:1.5px solid rgba(10,40,71,.15);border-radius:11px;padding:10px 14px;background:#FBFDFE" />
+                  <div style="font-size:11.5px;font-weight:700;color:#8499AB;margin-top:5px">Pisahkan tiap kata dengan koma — murid akan melihatnya teracak.</div>
+                </div>
+              </sc-if>
+
+              <div>
+                <div style="font-size:12px;font-weight:800;color:#8499AB;letter-spacing:.04em;margin-bottom:7px">PENJELASAN (TAMPIL SETELAH MENJAWAB)</div>
+                <textarea rows="2" value="{{ explain }}" onChange="{{ setExplain }}" style="width:100%;font-size:13.5px;font-weight:600;line-height:1.6;color:#0A2847;border:1.5px solid rgba(10,40,71,.15);border-radius:11px;padding:10px 14px;background:#FBFDFE;resize:vertical"></textarea>
+              </div>
+
+              <div>
+                <div style="font-size:12px;font-weight:800;color:#8499AB;letter-spacing:.04em;margin-bottom:9px">PENANDA BABAK</div>
+                <div style="display:flex;gap:8px">
+                  <sc-for list="{{ babakChips }}" as="b" hint-placeholder-count="3">
+                    <button onClick="{{ b.pick }}" style="flex:1;font-size:12.5px;font-weight:800;padding:9px 10px;border-radius:10px;cursor:pointer;background:{{ b.bg }};color:{{ b.co }};border:1.5px solid {{ b.bd }};white-space:nowrap">{{ b.label }}</button>
+                  </sc-for>
+                </div>
+              </div>
+
+              <div style="display:flex;gap:10px;border-top:1.5px solid rgba(10,40,71,.08);padding-top:16px">
+                <button style="font-size:14px;font-weight:800;color:#fff;background:#2EAF73;border:none;border-radius:11px;padding:11px 24px;cursor:pointer">Simpan Soal</button>
+                <button style="font-size:14px;font-weight:800;color:#1B6CA8;background:#fff;border:1.5px solid rgba(27,108,168,.35);border-radius:11px;padding:11px 20px;cursor:pointer">Simpan sebagai Draf</button>
+              </div>
+            </div>
+
+            <!-- PRATINJAU -->
+            <div style="background:#042C53;border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:12px">
+              <div style="display:flex;align-items:center;justify-content:space-between">
+                <span style="font-size:12.5px;font-weight:900;color:#5DCAA5;letter-spacing:.08em">PRATINJAU MURID</span>
+                <span style="display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:800;color:rgba(255,255,255,.6)"><span>{{ pvTypeIcon }}</span>{{ pvTypeLabel }}</span>
+              </div>
+              <div style="background:#fff;border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:14px">
+                <div style="display:flex;align-items:center;justify-content:space-between">
+                  <span style="font-size:11px;font-weight:900;padding:4px 11px;border-radius:99px;background:{{ pvBabakBg }};color:{{ pvBabakCo }}">{{ pvBabakLabel }}</span>
+                  <span style="font-size:11.5px;font-weight:800;color:#8499AB">Soal 3 / 12</span>
+                </div>
+
+                <sc-if value="{{ isAudio }}" hint-placeholder-val="{{ false }}">
+                  <div style="display:flex;align-items:center;gap:11px;background:#E3F0F9;border-radius:12px;padding:12px 14px">
+                    <span style="width:38px;height:38px;border-radius:50%;background:#1B6CA8;color:#fff;display:grid;place-items:center;font-size:15px;flex-shrink:0">▶</span>
+                    <div style="flex:1"><div style="height:5px;border-radius:99px;background:rgba(27,108,168,.2)"><div style="width:35%;height:100%;border-radius:99px;background:#1B6CA8"></div></div><div style="font-size:10.5px;font-weight:700;color:#51718B;margin-top:5px">0:04 / 0:12 · {{ pvAudioName }}</div></div>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ isVideo }}" hint-placeholder-val="{{ false }}">
+                  <div style="position:relative;border-radius:12px;overflow:hidden;background:#0A2847">
+                    <sc-if value="{{ pvHasThumb }}" hint-placeholder-val="{{ false }}"><div role="img" aria-label="Pratinjau video" style="width:100%;aspect-ratio:16/9;background-image:url({{ pvThumb }});background-size:cover;background-position:center;opacity:.92"></div></sc-if>
+                    <sc-if value="{{ pvNoThumb }}" hint-placeholder-val="{{ false }}"><div style="aspect-ratio:16/9"></div></sc-if>
+                    <span style="position:absolute;inset:0;display:grid;place-items:center"><span style="width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.92);color:#1B6CA8;display:grid;place-items:center;font-size:18px">▶</span></span>
+                  </div>
+                </sc-if>
+
+                <div dir="rtl" style="font-family:'Noto Naskh Arabic',serif;font-size:26px;font-weight:700;line-height:1.9;text-align:center;color:#0A2847;padding:4px 0">{{ pvText }}</div>
+                <sc-if value="{{ isIsian }}" hint-placeholder-val="{{ false }}">
+                  <div>
+                    <div style="border:1.5px dashed rgba(10,40,71,.25);border-radius:11px;padding:11px 14px;font-size:13.5px;font-weight:700;color:#9AAEC0;text-align:center">Ketik jawabanmu di sini…</div>
+                    <div style="font-size:11px;font-weight:700;color:#8499AB;margin-top:7px;text-align:center">Kunci: <span dir="rtl" style="font-family:'Noto Naskh Arabic',serif;font-size:14px;color:#1D9E75">{{ pvIsianKey }}</span> <span style="color:#C2D0DC">(hanya terlihat oleh Navigator)</span></div>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ isSusun }}" hint-placeholder-val="{{ false }}">
+                  <div>
+                    <div style="border:1.5px dashed rgba(10,40,71,.25);border-radius:11px;min-height:46px;margin-bottom:10px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#9AAEC0">Susun kata di sini</div>
+                    <div dir="rtl" style="display:flex;flex-wrap:wrap;gap:7px;justify-content:center">
+                      <sc-for list="{{ pvWords }}" as="w" hint-placeholder-count="4">
+                        <span style="font-family:'Noto Naskh Arabic',serif;font-size:17px;font-weight:700;color:#1B6CA8;background:#E3F0F9;border-radius:9px;padding:6px 13px">{{ w.w }}</span>
+                      </sc-for>
+                    </div>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ showOpts }}" hint-placeholder-val="{{ true }}">
+                  <div style="display:flex;flex-direction:column;gap:8px">
+                    <sc-for list="{{ pvOpts }}" as="o" hint-placeholder-count="4">
+                      <div style="display:flex;align-items:center;gap:10px;border:1.5px solid {{ o.bd }};background:{{ o.bg }};border-radius:11px;padding:10px 13px">
+                        <span style="width:24px;height:24px;border-radius:50%;background:#F4F8FB;color:#51718B;display:grid;place-items:center;font-size:11.5px;font-weight:900;flex-shrink:0">{{ o.letter }}</span>
+                        <span style="flex:1;font-size:13px;font-weight:700;color:#0A2847">{{ o.val }}</span>
+                        <sc-if value="{{ o.isCorrect }}" hint-placeholder-val="{{ false }}"><span style="font-size:10px;font-weight:900;color:#1D9E75">✓ KUNCI</span></sc-if>
+                      </div>
+                    </sc-for>
+                  </div>
+                </sc-if>
+
+                <button style="font-size:14px;font-weight:800;color:#fff;background:#2EAF73;border:none;border-radius:11px;padding:12px;cursor:pointer;width:100%">Periksa Jawaban</button>
+              </div>
+              <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.45);text-align:center">Tampilan persis seperti yang dilihat murid di quest.</div>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- ===== HALAMAN MURID ===== -->
+      <sc-if value="{{ isMurid }}" hint-placeholder-val="{{ false }}">
+        <div style="background:#fff;border:1.5px solid rgba(10,40,71,.1);border-radius:16px;overflow:hidden">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:15px 20px;border-bottom:1.5px solid rgba(10,40,71,.08)">
+            <div style="font-size:16px;font-weight:900">Daftar Murid <span style="font-size:12.5px;font-weight:800;color:#1B6CA8;background:#E3F0F9;border-radius:99px;padding:4px 11px;margin-left:6px">142 akun</span></div>
+            <span style="display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:700;color:#8499AB;border:1.5px solid rgba(10,40,71,.1);border-radius:10px;padding:8px 13px;min-width:220px">🔍 Cari nama atau email…</span>
+          </div>
+          <table style="width:100%;border-collapse:collapse">
+            <thead><tr>
+              <th style="text-align:left;padding:12px 20px;font-size:11.5px;font-weight:800;color:#8499AB;letter-spacing:.05em;background:#F4F8FB;border-bottom:1.5px solid rgba(10,40,71,.08)">NAMA</th>
+              <th style="text-align:left;padding:12px 14px;font-size:11.5px;font-weight:800;color:#8499AB;letter-spacing:.05em;background:#F4F8FB;border-bottom:1.5px solid rgba(10,40,71,.08)">EMAIL / AKUN</th>
+              <th style="text-align:left;padding:12px 14px;font-size:11.5px;font-weight:800;color:#8499AB;letter-spacing:.05em;background:#F4F8FB;border-bottom:1.5px solid rgba(10,40,71,.08)">LEVEL DIMILIKI</th>
+              <th style="text-align:left;padding:12px 14px;font-size:11.5px;font-weight:800;color:#8499AB;letter-spacing:.05em;background:#F4F8FB;border-bottom:1.5px solid rgba(10,40,71,.08);width:220px">PROGRESS</th>
+              <th style="text-align:left;padding:12px 20px;font-size:11.5px;font-weight:800;color:#8499AB;letter-spacing:.05em;background:#F4F8FB;border-bottom:1.5px solid rgba(10,40,71,.08)">TERAKHIR AKTIF</th>
+            </tr></thead>
+            <tbody>
+              <sc-for list="{{ murid }}" as="m" hint-placeholder-count="8">
+                <tr>
+                  <td style="padding:12px 20px;border-bottom:1px solid rgba(10,40,71,.06)"><div style="display:flex;align-items:center;gap:11px"><span style="width:34px;height:34px;border-radius:50%;background:#E3F0F9;color:#1B6CA8;display:grid;place-items:center;font-size:12px;font-weight:900;flex-shrink:0">{{ m.initials }}</span><span style="font-size:14px;font-weight:800">{{ m.name }}</span></div></td>
+                  <td style="padding:12px 14px;border-bottom:1px solid rgba(10,40,71,.06);font-size:13px;font-weight:700;color:#51718B">{{ m.email }}</td>
+                  <td style="padding:12px 14px;border-bottom:1px solid rgba(10,40,71,.06)"><span style="font-size:12px;font-weight:800;color:#1B6CA8;background:#E3F0F9;border-radius:8px;padding:5px 11px">{{ m.levels }}</span></td>
+                  <td style="padding:12px 14px;border-bottom:1px solid rgba(10,40,71,.06)"><div style="display:flex;align-items:center;gap:10px"><div style="flex:1;height:8px;border-radius:99px;background:#EFF3F7"><div style="width:{{ m.barW }};height:100%;border-radius:99px;background:{{ m.barCo }}"></div></div><span style="font-size:12.5px;font-weight:800;color:#51718B;width:38px;text-align:right">{{ m.prog }}</span></div></td>
+                  <td style="padding:12px 20px;border-bottom:1px solid rgba(10,40,71,.06);font-size:13px;font-weight:700;color:#8499AB">{{ m.last }}</td>
+                </tr>
+              </sc-for>
+            </tbody>
+          </table>
+          <div style="padding:13px 20px;font-size:12.5px;font-weight:700;color:#8499AB">Menampilkan 1–8 dari 142 murid</div>
+        </div>
+      </sc-if>
+
+      <!-- ===== HALAMAN PEMBELIAN ===== -->
+      <sc-if value="{{ isPembelian }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div style="display:flex;align-items:center;gap:10px;background:#E3F0F9;border:1.5px solid rgba(27,108,168,.2);border-radius:12px;padding:11px 16px;font-size:13px;font-weight:700;color:#1B6CA8">ℹ️ Semua pembelian bersifat beli putus per level — bukan langganan. Tidak ada tagihan berulang.</div>
+          <div style="background:#fff;border:1.5px solid rgba(10,40,71,.1);border-radius:16px;overflow:hidden">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:15px 20px;border-bottom:1.5px solid rgba(10,40,71,.08)">
+              <div style="font-size:16px;font-weight:900">Riwayat Transaksi</div>
+              <div style="display:flex;gap:9px">
+                <span style="display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:800;color:#1B6CA8;border:1.5px solid rgba(27,108,168,.25);border-radius:10px;padding:8px 13px;cursor:pointer">Juni 2026 ▾</span>
+                <span style="display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:800;color:#1B6CA8;border:1.5px solid rgba(27,108,168,.25);border-radius:10px;padding:8px 13px;cursor:pointer">Semua Status ▾</span>
+              </div>
+            </div>
+            <table style="width:100%;border-collapse:collapse">
+              <thead><tr>
+                <th style="text-align:left;padding:12px 20px;font-size:11.5px;font-weight:800;color:#8499AB;letter-spacing:.05em;background:#F4F8FB;border-bottom:1.5px solid rgba(10,40,71,.08)">ORDER ID</th>
+                <th style="text-align:left;padding:12px 14px;font-size:11.5px;font-weight:800;color:#8499AB;letter-spacing:.05em;background:#F4F8FB;border-bottom:1.5px solid rgba(10,40,71,.08)">PEMBELI</th>
+                <th style="text-align:left;padding:12px 14px;font-size:11.5px;font-weight:800;color:#8499AB;letter-spacing:.05em;background:#F4F8FB;border-bottom:1.5px solid rgba(10,40,71,.08)">LEVEL / PAKET</th>
+                <th style="text-align:right;padding:12px 14px;font-size:11.5px;font-weight:800;color:#8499AB;letter-spacing:.05em;background:#F4F8FB;border-bottom:1.5px solid rgba(10,40,71,.08)">HARGA</th>
+                <th style="text-align:left;padding:12px 14px;font-size:11.5px;font-weight:800;color:#8499AB;letter-spacing:.05em;background:#F4F8FB;border-bottom:1.5px solid rgba(10,40,71,.08)">METODE</th>
+                <th style="text-align:left;padding:12px 14px;font-size:11.5px;font-weight:800;color:#8499AB;letter-spacing:.05em;background:#F4F8FB;border-bottom:1.5px solid rgba(10,40,71,.08)">STATUS</th>
+                <th style="text-align:left;padding:12px 20px;font-size:11.5px;font-weight:800;color:#8499AB;letter-spacing:.05em;background:#F4F8FB;border-bottom:1.5px solid rgba(10,40,71,.08)">TANGGAL</th>
+              </tr></thead>
+              <tbody>
+                <sc-for list="{{ orders }}" as="o" hint-placeholder-count="7">
+                  <tr>
+                    <td style="padding:12px 20px;border-bottom:1px solid rgba(10,40,71,.06);font-size:13px;font-weight:800;color:#1B6CA8">{{ o.oid }}</td>
+                    <td style="padding:12px 14px;border-bottom:1px solid rgba(10,40,71,.06);font-size:13.5px;font-weight:800">{{ o.buyer }}</td>
+                    <td style="padding:12px 14px;border-bottom:1px solid rgba(10,40,71,.06);font-size:13px;font-weight:700;color:#51718B">{{ o.item }}</td>
+                    <td style="padding:12px 14px;border-bottom:1px solid rgba(10,40,71,.06);font-size:13.5px;font-weight:800;text-align:right">{{ o.price }}</td>
+                    <td style="padding:12px 14px;border-bottom:1px solid rgba(10,40,71,.06)"><span style="font-size:12px;font-weight:800;color:#51718B;background:#F4F8FB;border:1px solid rgba(10,40,71,.08);border-radius:8px;padding:4px 10px">{{ o.method }}</span></td>
+                    <td style="padding:12px 14px;border-bottom:1px solid rgba(10,40,71,.06)"><span style="display:inline-flex;align-items:center;gap:6px;padding:4px 11px;border-radius:99px;font-size:12px;font-weight:800;background:{{ o.stBg }};color:{{ o.stCo }}"><span style="width:6px;height:6px;border-radius:50%;background:{{ o.stDot }}"></span>{{ o.status }}</span></td>
+                    <td style="padding:12px 20px;border-bottom:1px solid rgba(10,40,71,.06);font-size:12.5px;font-weight:700;color:#8499AB">{{ o.date }}</td>
+                  </tr>
+                </sc-for>
+              </tbody>
+            </table>
+            <div style="padding:13px 20px;font-size:12.5px;font-weight:700;color:#8499AB">Menampilkan 7 transaksi terakhir · Juni 2026</div>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- ===== PLACEHOLDER DASHBOARD / PENGATURAN ===== -->
+      <sc-if value="{{ isDashboard }}" hint-placeholder-val="{{ false }}">
+        <div style="background:#fff;border:1.5px dashed rgba(10,40,71,.2);border-radius:16px;padding:60px 40px;text-align:center">
+          <div style="font-size:34px;margin-bottom:12px">📊</div>
+          <div style="font-size:17px;font-weight:900;margin-bottom:6px">Dashboard belum termasuk cakupan mockup ini</div>
+          <div style="font-size:13.5px;font-weight:600;color:#51718B;max-width:420px;margin:0 auto 18px">Fokus rilis ini: Kelas, Pembuat Soal, Murid, dan Pembelian.</div>
+          <button onClick="{{ goKelas }}" style="font-size:13.5px;font-weight:800;color:#fff;background:#1B6CA8;border:none;border-radius:11px;padding:10px 20px;cursor:pointer">Buka halaman Kelas →</button>
+        </div>
+      </sc-if>
+      <sc-if value="{{ isPengaturan }}" hint-placeholder-val="{{ false }}">
+        <div style="background:#fff;border:1.5px dashed rgba(10,40,71,.2);border-radius:16px;padding:60px 40px;text-align:center">
+          <div style="font-size:34px;margin-bottom:12px">⚙️</div>
+          <div style="font-size:17px;font-weight:900;margin-bottom:6px">Pengaturan belum termasuk cakupan mockup ini</div>
+          <div style="font-size:13.5px;font-weight:600;color:#51718B;max-width:420px;margin:0 auto 18px">Fokus rilis ini: Kelas, Pembuat Soal, Murid, dan Pembelian.</div>
+          <button onClick="{{ goKelas }}" style="font-size:13.5px;font-weight:800;color:#fff;background:#1B6CA8;border:none;border-radius:11px;padding:10px 20px;cursor:pointer">Buka halaman Kelas →</button>
+        </div>
+      </sc-if>
+      <!--PAGES-->
+    </div>
+  </div>
+
+  <!-- ============ SCRIM ============ -->
+  <div onClick="{{ closeEditor }}" style="position:fixed;inset:0;background:rgba(4,44,83,.45);z-index:90;transition:opacity .3s;opacity:{{ scrimOp }};pointer-events:{{ scrimPe }}"></div>
+
+  <!-- ============ EDITOR KELAS · SLIDE-OVER ============ -->
+  <div data-screen-label="Editor Kelas" style="position:fixed;top:0;right:0;bottom:0;width:530px;background:#fff;z-index:95;display:flex;flex-direction:column;box-shadow:-24px 0 60px -24px rgba(4,44,83,.5);transition:transform .35s cubic-bezier(.22,.8,.3,1);transform:{{ editorTx }}">
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:14px;padding:18px 24px;border-bottom:1.5px solid rgba(10,40,71,.08);flex-shrink:0">
+      <div>
+        <div style="font-size:12px;font-weight:800;color:#9AAEC0">Editor Kelas</div>
+        <div style="font-size:19px;font-weight:900;letter-spacing:-.3px">{{ edName }}</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:800;padding:5px 12px;border-radius:99px;background:{{ edStatusBg }};color:{{ edStatusCo }}"><span style="width:7px;height:7px;border-radius:50%;background:{{ edStatusDot }}"></span>{{ edStatusTx }}</span>
+        <button onClick="{{ closeEditor }}" style="width:32px;height:32px;border-radius:9px;background:#F4F8FB;border:none;display:grid;place-items:center;font-size:15px;color:#8499AB;cursor:pointer">✕</button>
+      </div>
+    </div>
+
+    <div style="flex:1;overflow-y:auto;padding:20px 24px;display:flex;flex-direction:column;gap:18px">
+      <!-- META -->
+      <div style="display:grid;grid-template-columns:1fr;gap:12px">
+        <div><div style="font-size:11.5px;font-weight:800;color:#8499AB;margin-bottom:6px;letter-spacing:.04em">NAMA KELAS</div><input type="text" value="{{ edName }}" onChange="{{ setEdName }}" style="width:100%;font-size:14.5px;font-weight:800;color:#0A2847;border:1.5px solid rgba(10,40,71,.15);border-radius:10px;padding:10px 13px;background:#FBFDFE" /></div>
+        <div style="display:grid;grid-template-columns:1fr 130px;gap:12px">
+          <div><div style="font-size:11.5px;font-weight:800;color:#8499AB;margin-bottom:6px;letter-spacing:.04em">TRACK</div><select value="{{ edTrack }}" onChange="{{ setEdTrack }}" style="width:100%;font-size:14px;font-weight:800;color:#0A2847;border:1.5px solid rgba(10,40,71,.15);border-radius:10px;padding:10px 13px;background:#FBFDFE;cursor:pointer"><option>Umroh</option><option>Percakapan</option><option>Bisnis</option><option>Travel</option></select></div>
+          <div><div style="font-size:11.5px;font-weight:800;color:#8499AB;margin-bottom:6px;letter-spacing:.04em">LEVEL</div><select value="{{ edLevel }}" onChange="{{ setEdLevel }}" style="width:100%;font-size:14px;font-weight:800;color:#0A2847;border:1.5px solid rgba(10,40,71,.15);border-radius:10px;padding:10px 13px;background:#FBFDFE;cursor:pointer"><option>L1</option><option>L2</option><option>L3</option><option>L4</option></select></div>
+        </div>
+      </div>
+
+      <!-- DNA -->
+      <div>
+        <div style="display:flex;align-items:center;gap:9px;margin-bottom:4px"><span style="font-size:16px">🧬</span><span style="font-size:15px;font-weight:900">DNA Modul Kelas</span><span style="font-size:11.5px;font-weight:800;color:#1B6CA8;background:#E3F0F9;border-radius:99px;padding:3px 10px">{{ dnaCountTx }}</span></div>
+        <div style="font-size:12.5px;color:#8499AB;font-weight:600;margin-bottom:13px">Lima komponen wajib sebelum kelas bisa terbit.</div>
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <sc-for list="{{ edSlots }}" as="s" hint-placeholder-count="4">
+            <div style="display:flex;align-items:center;gap:12px;border:1.5px {{ s.bds }} {{ s.bd }};background:{{ s.bg }};border-radius:13px;padding:12px 14px">
+              <span style="width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-size:13px;font-weight:900;flex-shrink:0;background:{{ s.numBg }};color:{{ s.numCo }};border:2px {{ s.numBds }} {{ s.numBd }}">{{ s.n }}</span>
+              <span style="font-size:17px">{{ s.icon }}</span>
+              <div style="flex:1;min-width:0"><div style="font-size:13.5px;font-weight:900">{{ s.name }}</div><div style="font-size:12px;font-weight:700;color:{{ s.descCo }}">{{ s.desc }}</div></div>
+              <span style="font-size:11px;font-weight:800;border-radius:99px;padding:4px 10px;white-space:nowrap;background:{{ s.chipBg }};color:{{ s.chipCo }}">{{ s.chipTx }}</span>
+              <sc-if value="{{ s.filled }}" hint-placeholder-val="{{ true }}"><button style="font-size:11.5px;font-weight:800;color:#1B6CA8;background:#fff;border:1.5px solid rgba(27,108,168,.25);border-radius:8px;padding:6px 11px;cursor:pointer">Ubah</button></sc-if>
+              <sc-if value="{{ s.empty }}" hint-placeholder-val="{{ false }}"><button style="font-size:11.5px;font-weight:900;color:#5e4602;background:#F5C518;border:none;border-radius:8px;padding:7px 12px;cursor:pointer;white-space:nowrap">Isi</button></sc-if>
+            </div>
+          </sc-for>
+
+          <!-- SLOT 5 · PRASYARAT -->
+          <div style="border:1.5px solid #CFE2F0;background:#F4F8FB;border-radius:13px;padding:12px 14px">
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:9px">
+              <span style="width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-size:13px;font-weight:900;flex-shrink:0;background:#1B6CA8;color:#fff">5</span>
+              <span style="font-size:17px">🔗</span>
+              <div style="flex:1"><div style="font-size:13.5px;font-weight:900">Prasyarat</div><div style="font-size:12px;font-weight:700;color:#8499AB">Kelas yang harus dituntaskan dulu</div></div>
+              <span style="font-size:11px;font-weight:800;color:#1B6CA8;background:#E3F0F9;border-radius:99px;padding:4px 10px">Dropdown</span>
+            </div>
+            <select value="{{ prereq }}" onChange="{{ setPrereq }}" style="width:100%;font-size:13px;font-weight:800;color:#0A2847;border:1.5px solid rgba(27,108,168,.3);border-radius:9px;padding:9px 12px;background:#fff;cursor:pointer">
+              <option>Tidak ada prasyarat</option>
+              <option>L1 Iqro - Kelas A</option>
+              <option>L1 Iqro - Kelas B</option>
+              <option>L2 Fi'l Madhi</option>
+              <option>L2 Isim &amp; Harf</option>
+              <option>L3 Doa Umroh</option>
+            </select>
+          </div>
+
+          <!-- SLOT 6 · VIDEO MATERI -->
+          <div style="border:1.5px solid #CFE2F0;background:#F4F8FB;border-radius:13px;padding:12px 14px">
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:9px">
+              <span style="width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-size:13px;font-weight:900;flex-shrink:0;background:#1B6CA8;color:#fff">6</span>
+              <span style="font-size:17px">🎬</span>
+              <div style="flex:1"><div style="font-size:13.5px;font-weight:900">Video Materi</div><div style="font-size:12px;font-weight:700;color:#8499AB">Tempel link YouTube — pratinjau tampil otomatis</div></div>
+              <span style="font-size:11px;font-weight:800;border-radius:99px;padding:4px 10px;background:{{ edVideoChipBg }};color:{{ edVideoChipCo }}">{{ edVideoChipTx }}</span>
+            </div>
+            <input type="text" placeholder="https://youtu.be/…" value="{{ videoUrl }}" onChange="{{ setVideoUrl }}" style="width:100%;font-size:13px;font-weight:700;color:#0A2847;border:1.5px solid rgba(27,108,168,.3);border-radius:9px;padding:9px 12px;background:#fff;margin-bottom:10px" />
+            <sc-if value="{{ edHasThumb }}" hint-placeholder-val="{{ true }}">
+              <div style="position:relative;border-radius:11px;overflow:hidden;background:#0A2847">
+                <div role="img" aria-label="Pratinjau video" style="width:100%;aspect-ratio:16/9;background-image:url({{ edThumb }});background-size:cover;background-position:center;opacity:.92"></div>
+                <span style="position:absolute;inset:0;display:grid;place-items:center"><span style="width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.92);color:#1B6CA8;display:grid;place-items:center;font-size:17px">▶</span></span>
+                <span style="position:absolute;bottom:8px;left:8px;font-size:10.5px;font-weight:800;color:#fff;background:rgba(4,44,83,.75);border-radius:7px;padding:3px 9px">YouTube · pratinjau embed</span>
+              </div>
+            </sc-if>
+            <sc-if value="{{ edNoThumb }}" hint-placeholder-val="{{ false }}">
+              <div style="border:1.5px dashed rgba(10,40,71,.25);border-radius:11px;aspect-ratio:16/9;display:grid;place-items:center;font-size:12.5px;font-weight:700;color:#9AAEC0;text-align:center;padding:10px">Tempel URL YouTube yang valid<br />untuk melihat thumbnail video</div>
+            </sc-if>
+          </div>
+        </div>
+      </div>
+
+      <!-- KESIAPAN -->
+      <div style="background:#F4F8FB;border:1.5px solid rgba(10,40,71,.08);border-radius:13px;padding:16px">
+        <div style="font-size:13.5px;font-weight:900;margin-bottom:12px">Kesiapan Terbit</div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;align-items:center;gap:10px;font-size:12.5px;font-weight:700"><span style="width:21px;height:21px;border-radius:50%;display:grid;place-items:center;font-size:11px;flex-shrink:0;background:{{ edSlotsOkBg }};color:{{ edSlotsOkCo }}">{{ edSlotsOkIcon }}</span><span style="color:#0A2847">5 slot DNA terisi</span><span style="margin-left:auto;font-weight:900;color:{{ edSlotsOkCo }}">{{ dnaCountTx }}</span></div>
+          <div>
+            <div style="display:flex;align-items:center;gap:10px;font-size:12.5px;font-weight:700;margin-bottom:6px"><span style="width:21px;height:21px;border-radius:50%;display:grid;place-items:center;font-size:11px;flex-shrink:0;background:{{ edSoalOkBg }};color:{{ edSoalOkCo }}">{{ edSoalOkIcon }}</span><span style="color:#0A2847">Minimal 10 soal terbit</span><span style="margin-left:auto;font-weight:900;color:{{ edSoalOkCo }}">{{ edSoalTx }}</span></div>
+            <div style="height:7px;border-radius:99px;background:#E5EBF1;margin-left:31px"><div style="height:100%;border-radius:99px;width:{{ edSoalW }};background:{{ edSoalBar }}"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div style="padding:14px 24px;border-top:1.5px solid rgba(10,40,71,.08);background:#FBFDFE;flex-shrink:0">
+      <sc-if value="{{ edLocked }}" hint-placeholder-val="{{ true }}">
+        <div style="font-size:12px;font-weight:700;color:#B7860B;background:#FBF1D0;border-radius:9px;padding:8px 12px;margin-bottom:11px">🔒 Terkunci sampai 5 slot DNA terisi &amp; minimal 10 soal terbit</div>
+      </sc-if>
+      <sc-if value="{{ edTerbit }}" hint-placeholder-val="{{ false }}">
+        <div style="font-size:12px;font-weight:700;color:#1D9E75;background:#E1F5EE;border-radius:9px;padding:8px 12px;margin-bottom:11px">✓ Kelas ini sudah terbit — perubahan akan langsung terlihat murid setelah disimpan.</div>
+      </sc-if>
+      <div style="display:flex;gap:10px">
+        <button onClick="{{ closeEditor }}" style="flex:1;font-size:13.5px;font-weight:800;color:#1B6CA8;background:#fff;border:1.5px solid rgba(27,108,168,.35);border-radius:11px;padding:11px;cursor:pointer">Simpan Draf</button>
+        <sc-if value="{{ edLocked }}" hint-placeholder-val="{{ true }}">
+          <button disabled style="flex:1;font-size:13.5px;font-weight:800;color:#9AAEC0;background:#EAEEF2;border:none;border-radius:11px;padding:11px;cursor:not-allowed">🔒 Terbitkan</button>
+        </sc-if>
+        <sc-if value="{{ edPublishable }}" hint-placeholder-val="{{ false }}">
+          <button style="flex:1;font-size:13.5px;font-weight:800;color:#fff;background:#2EAF73;border:none;border-radius:11px;padding:11px;cursor:pointer">Terbitkan</button>
+        </sc-if>
+        <sc-if value="{{ edTerbit }}" hint-placeholder-val="{{ false }}">
+          <button style="flex:1;font-size:13.5px;font-weight:800;color:#fff;background:#2EAF73;border:none;border-radius:11px;padding:11px;cursor:pointer">Simpan Perubahan</button>
+        </sc-if>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ MODAL IMPOR JSON ============ -->
+  <sc-if value="{{ importOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;inset:0;background:rgba(4,44,83,.55);z-index:100;display:grid;place-items:center;padding:30px">
+      <div data-screen-label="Modal Impor JSON" style="width:760px;max-width:100%;max-height:90vh;background:#fff;border-radius:18px;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 40px 90px -30px rgba(4,44,83,.6)">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 22px;border-bottom:1.5px solid rgba(10,40,71,.08)">
+          <div><div style="font-size:17px;font-weight:900">Impor JSON Soal</div><div style="font-size:12.5px;font-weight:600;color:#8499AB">Tempel hasil generator soal — pratinjau hasil parse tampil di kanan.</div></div>
+          <button onClick="{{ closeImport }}" style="width:32px;height:32px;border-radius:9px;background:#F4F8FB;border:none;display:grid;place-items:center;font-size:15px;color:#8499AB;cursor:pointer">✕</button>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;flex:1;min-height:0">
+          <div style="padding:16px 18px;border-right:1.5px solid rgba(10,40,71,.08);display:flex;flex-direction:column;gap:8px">
+            <div style="font-size:11.5px;font-weight:800;color:#8499AB;letter-spacing:.04em">JSON</div>
+            <textarea rows="14" value="{{ importText }}" onChange="{{ setImportText }}" spellCheck="false" style="flex:1;width:100%;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11.5px;line-height:1.6;color:#0A2847;border:1.5px solid rgba(10,40,71,.15);border-radius:11px;padding:12px;background:#FBFDFE;resize:none"></textarea>
+          </div>
+          <div style="padding:16px 18px;display:flex;flex-direction:column;gap:8px;overflow-y:auto">
+            <div style="font-size:11.5px;font-weight:800;color:#8499AB;letter-spacing:.04em">HASIL PARSE</div>
+            <sc-if value="{{ importOk }}" hint-placeholder-val="{{ true }}">
+              <div style="display:flex;flex-direction:column;gap:8px">
+                <sc-for list="{{ importItems }}" as="it" hint-placeholder-count="3">
+                  <div style="border:1.5px solid rgba(10,40,71,.1);border-radius:11px;padding:10px 13px;display:flex;flex-direction:column;gap:7px">
+                    <div dir="rtl" style="font-family:'Noto Naskh Arabic',serif;font-size:15px;font-weight:700;line-height:1.7">{{ it.text }}</div>
+                    <div style="display:flex;align-items:center;gap:7px">
+                      <span style="font-size:10.5px;font-weight:900;padding:3px 9px;border-radius:7px;background:{{ it.bBg }};color:{{ it.bCo }}">{{ it.bLabel }}</span>
+                      <span style="font-size:11px;font-weight:700;color:#8499AB">{{ it.type }}</span>
+                      <span style="margin-left:auto;font-size:10.5px;font-weight:800;color:#1D9E75">✓ valid</span>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-if>
+            <sc-if value="{{ importBad }}" hint-placeholder-val="{{ false }}">
+              <div style="border:1.5px solid #EBC6C3;background:#F8E4E2;border-radius:11px;padding:12px 14px;font-size:12.5px;font-weight:700;color:#A33B35;line-height:1.5">⚠️ {{ importErr }}</div>
+            </sc-if>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;padding:14px 22px;border-top:1.5px solid rgba(10,40,71,.08);background:#FBFDFE">
+          <span style="font-size:12px;font-weight:700;color:#8499AB">Soal hasil impor masuk sebagai <strong style="color:#B7860B">Draf</strong> — tinjau dulu sebelum diterbitkan.</span>
+          <div style="margin-left:auto;display:flex;gap:10px">
+            <button onClick="{{ closeImport }}" style="font-size:13px;font-weight:800;color:#51718B;background:#fff;border:1.5px solid rgba(10,40,71,.15);border-radius:10px;padding:10px 18px;cursor:pointer">Batal</button>
+            <sc-if value="{{ importOk }}" hint-placeholder-val="{{ true }}">
+              <button onClick="{{ applyImport }}" style="font-size:13px;font-weight:800;color:#fff;background:#2EAF73;border:none;border-radius:10px;padding:10px 20px;cursor:pointer">{{ importBtnTx }}</button>
+            </sc-if>
+            <sc-if value="{{ importBad }}" hint-placeholder-val="{{ false }}">
+              <button disabled style="font-size:13px;font-weight:800;color:#9AAEC0;background:#EAEEF2;border:none;border-radius:10px;padding:10px 20px;cursor:not-allowed">Perbaiki JSON dulu</button>
+            </sc-if>
+          </div>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = {
+    page: 'kelas',
+    editorOpen: false,
+    editorClass: null,
+    prereq: 'L1 Iqro - Kelas A',
+    videoUrl: 'https://youtu.be/jNQXAC9IVRw',
+    qType: 'pg',
+    qText: 'ذَهَبَ الطَّالِبُ إِلَى الْمَسْجِدِ',
+    opts: ['Murid itu pergi ke masjid', 'Murid itu pulang dari masjid', 'Guru itu pergi ke pasar', 'Murid itu berada di rumah'],
+    correct: 0,
+    explain: "ذَهَبَ artinya 'pergi' (fi'l madhi / kata kerja lampau). إِلَى artinya 'ke', dan الْمَسْجِدِ artinya 'masjid'.",
+    babak: 1,
+    words: 'ذَهَبَ، الطَّالِبُ، إِلَى، الْمَسْجِدِ',
+    isianKey: 'ذَهَبَ',
+    audioUrl: 'audio/fil-madhi-03.mp3',
+    qVideo: 'https://youtu.be/jNQXAC9IVRw',
+    importOpen: false,
+    importText: `[
+  {"tipe":"pilihan_ganda","babak":1,"pertanyaan":"جَلَسَ الضَّيْفُ فِي الْمَجْلِسِ","opsi":["Tamu itu duduk di ruang tamu","Tamu itu berdiri di pintu","Anak itu duduk di kelas","Tamu itu makan di dapur"],"kunci":0,"penjelasan":"جَلَسَ artinya duduk"},
+  {"tipe":"isian","babak":2,"pertanyaan":"___ الْمُسَافِرُ الْحَقِيبَةَ (membawa)","kunci":"حَمَلَ","penjelasan":"حَمَلَ artinya membawa"},
+  {"tipe":"susun_kata","babak":3,"pertanyaan":"Susun menjadi kalimat yang benar","kata":["غَسَلَ","الْخَادِمُ","السَّيَّارَةَ"],"penjelasan":"Pola: fi'l + fa'il + maf'ul bih"}
+]`,
+    questions: [
+      { id: 1, t: 'ذَهَبَ الطَّالِبُ إِلَى الْمَسْجِدِ', type: 'Pilihan Ganda', babak: 1, status: 'Terbit' },
+      { id: 2, t: 'كَتَبَ الْمُدَرِّسُ الدَّرْسَ', type: 'Pilihan Ganda', babak: 1, status: 'Terbit' },
+      { id: 3, t: 'شَرِبَ الْوَلَدُ الْحَلِيبَ', type: 'Isian', babak: 1, status: 'Terbit' },
+      { id: 4, t: 'دَخَلَ التَّاجِرُ السُّوقَ', type: 'Susun Kata', babak: 2, status: 'Terbit' },
+      { id: 5, t: 'سَمِعَ الرَّجُلُ الْأَذَانَ', type: 'Dengarkan Audio', babak: 2, status: 'Terbit' },
+      { id: 6, t: 'قَرَأَتِ الْبِنْتُ الْقُرْآنَ', type: 'Pilihan Ganda', babak: 2, status: 'Terbit' },
+      { id: 7, t: 'رَجَعَ الْأَبُ مِنَ الْعَمَلِ', type: 'Tonton Video', babak: 3, status: 'Draf' },
+      { id: 8, t: 'فَتَحَ الْمُوَظَّفُ الْبَابَ', type: 'Susun Kata', babak: 3, status: 'Draf' },
+    ],
+    nextId: 9,
+  };
+
+  renderVals() {
+    const S = this.state;
+    const set = (o) => this.setState(o);
+
+    // ---------- shared meta ----------
+    const T = {
+      Umroh:      { color: '#1D9E75', bg: '#E1F5EE', icon: '🕋' },
+      Percakapan: { color: '#1B6CA8', bg: '#E3F0F9', icon: '💬' },
+      Bisnis:     { color: '#B7860B', bg: '#FBF1D0', icon: '💼' },
+      Travel:     { color: '#7C5BD0', bg: '#F0EBFA', icon: '✈️' },
+    };
+    const BABAK = {
+      1: { chip: 'B1', label: 'Babak 1 · Mudah',  color: '#1D9E75', bg: '#E1F5EE' },
+      2: { chip: 'B2', label: 'Babak 2 · Sedang', color: '#B7860B', bg: '#FBF1D0' },
+      3: { chip: 'B3', label: 'Babak 3 · Sulit',  color: '#C0504A', bg: '#F8E4E2' },
+    };
+    const STATUS = {
+      Terbit: { color: '#1D9E75', bg: '#E1F5EE', dot: '#2EAF73' },
+      Draf:   { color: '#B7860B', bg: '#FBF1D0', dot: '#E0A800' },
+      Lunas:  { color: '#1D9E75', bg: '#E1F5EE', dot: '#2EAF73' },
+      Pending:{ color: '#B7860B', bg: '#FBF1D0', dot: '#E0A800' },
+    };
+    const TYPES = [
+      { key: 'pg',    label: 'Pilihan Ganda',   icon: '🔘' },
+      { key: 'isian', label: 'Isian',           icon: '⌨️' },
+      { key: 'susun', label: 'Susun Kata',      icon: '🧩' },
+      { key: 'audio', label: 'Dengarkan Audio', icon: '🔊' },
+      { key: 'video', label: 'Tonton Video',    icon: '🎬' },
+    ];
+    const keyFromLabel = {};
+    TYPES.forEach(t => { keyFromLabel[t.label] = t.key; });
+    const ytId = (u) => { const m = String(u || '').match(/(?:youtu\.be\/|v=|embed\/|shorts\/)([\w-]{11})/); return m ? m[1] : ''; };
+
+    // ---------- nav ----------
+    const NAV = [
+      { key: 'dashboard',  label: 'Dashboard',  icon: '📊' },
+      { key: 'kelas',      label: 'Kelas',      icon: '📚' },
+      { key: 'soal',       label: 'Soal',       icon: '📝' },
+      { key: 'murid',      label: 'Murid',      icon: '👥' },
+      { key: 'pembelian',  label: 'Pembelian',  icon: '💳' },
+      { key: 'pengaturan', label: 'Pengaturan', icon: '⚙️' },
+    ];
+    const nav = NAV.map(n => {
+      const act = S.page === n.key;
+      return { ...n,
+        fw: act ? '800' : '700',
+        co: act ? '#1B6CA8' : '#51718B',
+        bg: act ? '#E3F0F9' : 'transparent',
+        sh: act ? 'inset 3px 0 0 #1B6CA8' : 'none',
+        go: () => set({ page: n.key, editorOpen: false }),
+      };
+    });
+    const PAGE_META = {
+      dashboard:  { t: 'Dashboard',     c: 'Beranda' },
+      kelas:      { t: 'Kelas',         c: 'Dashboard / Kelas' },
+      soal:       { t: 'Pembuat Soal',  c: 'Dashboard / Soal' },
+      murid:      { t: 'Murid',         c: 'Dashboard / Murid' },
+      pembelian:  { t: 'Pembelian',     c: 'Dashboard / Pembelian' },
+      pengaturan: { t: 'Pengaturan',    c: 'Dashboard / Pengaturan' },
+    };
+
+    // ---------- kelas ----------
+    const rawClasses = [
+      ['L1 Iqro - Kelas A', 'Umroh', 'L1', 12, true],
+      ['L1 Iqro - Kelas B', 'Percakapan', 'L1', 10, true],
+      ["L2 Fi'l Madhi", 'Percakapan', 'L2', 14, true],
+      ['L2 Isim & Harf', 'Bisnis', 'L2', 8, false],
+      ['L3 Doa Umroh', 'Umroh', 'L3', 16, true],
+      ['L3 Percakapan Hotel', 'Travel', 'L3', 6, false],
+      ['L4 Negosiasi Bisnis', 'Bisnis', 'L4', 9, false],
+    ];
+    const classes = rawClasses.map(r => {
+      const t = T[r[1]]; const st = STATUS[r[4] ? 'Terbit' : 'Draf'];
+      const obj = { name: r[0], track: r[1], level: r[2], soal: r[3], terbit: r[4],
+        trackColor: t.color, trackBg: t.bg, trackIcon: t.icon,
+        statusLabel: r[4] ? 'Terbit' : 'Draf', statusColor: st.color, statusBg: st.bg, statusDot: st.dot,
+        soalText: r[3] + ' soal' };
+      obj.open = () => set({ editorOpen: true, editorClass: obj });
+      return obj;
+    });
+    const summary = [
+      { label: 'Total Kelas',  value: '24',  icon: '📚', bg: '#E3F0F9' },
+      { label: 'Kelas Terbit', value: '18',  icon: '✅', bg: '#E1F5EE' },
+      { label: 'Kelas Draf',   value: '6',   icon: '✏️', bg: '#FBF1D0' },
+      { label: 'Total Soal',   value: '312', icon: '❓', bg: '#F0EBFA' },
+    ];
+
+    // ---------- editor ----------
+    const ed = S.editorClass || classes[3];
+    const isNew = !!ed.isNew;
+    const filled4 = isNew ? [false, false, false, false] : (ed.terbit ? [true, true, true, true] : [true, true, true, false]);
+    const prereqFilled = S.prereq !== 'Tidak ada prasyarat';
+    const dnaCount = filled4.filter(Boolean).length + (prereqFilled ? 1 : 0);
+    const soalOk = ed.soal >= 10;
+    const canPublish = dnaCount === 5 && soalOk && !ed.terbit;
+    const SLOT_DEF = [
+      { icon: '🔤', name: 'Sharaf',      full: "Wazan Fi'l Madhi (فَعَلَ – يَفْعُلُ)", empty: 'Belum dipilih — pilih pola sharaf' },
+      { icon: '📐', name: 'Nahwu',       full: "Jumlah Ismiyah & Fi'liyah",            empty: 'Belum dipilih — pilih topik nahwu' },
+      { icon: '📖', name: 'Kosakata',    full: '18 kosakata tematik',                  empty: 'Belum ada — tambahkan kosakata' },
+      { icon: '🧩', name: 'Format Soal', full: 'Pilihan Ganda + Susun Kata',           empty: 'Belum dipilih — pilih jenis soal quest' },
+    ];
+    const edSlots = SLOT_DEF.map((d, i) => {
+      const f = filled4[i];
+      return { n: i + 1, icon: d.icon, name: d.name, filled: f, empty: !f,
+        desc: f ? d.full : d.empty,
+        descCo: f ? '#51718B' : '#B7860B',
+        bds: f ? 'solid' : 'dashed', bd: f ? '#CDEBDF' : '#E0C36B', bg: f ? '#F4FBF8' : '#FFFCF2',
+        numBg: f ? '#2EAF73' : '#fff', numCo: f ? '#fff' : '#B7860B', numBds: f ? 'solid' : 'dashed', numBd: f ? '#2EAF73' : '#E0A800',
+        chipTx: f ? '✓ Terisi' : 'Kosong', chipBg: f ? '#E1F5EE' : '#FBF1D0', chipCo: f ? '#1D9E75' : '#B7860B' };
+    });
+    const edVid = ytId(S.videoUrl);
+    const edThumb = edVid ? 'https://img.youtube.com/vi/' + edVid + '/mqdefault.jpg' : '';
+
+    // ---------- soal page ----------
+    const typeChips = TYPES.map(t => {
+      const act = S.qType === t.key;
+      return { ...t,
+        bg: act ? '#1B6CA8' : '#fff', co: act ? '#fff' : '#51718B', bd: act ? '#1B6CA8' : 'rgba(10,40,71,.15)',
+        pick: () => set({ qType: t.key }) };
+    });
+    const babakChips = [1, 2, 3].map(n => {
+      const m = BABAK[n]; const act = S.babak === n;
+      return { n, label: m.label,
+        bg: act ? m.bg : '#fff', co: act ? m.color : '#8499AB', bd: act ? m.color : 'rgba(10,40,71,.15)',
+        pick: () => set({ babak: n }) };
+    });
+    const LETTERS = ['A', 'B', 'C', 'D'];
+    const optRows = S.opts.map((v, i) => {
+      const isC = S.correct === i;
+      return { letter: LETTERS[i], val: v, isCorrect: isC, notCorrect: !isC,
+        rBg: isC ? '#2EAF73' : '#fff', rCo: isC ? '#fff' : '#8499AB', rBd: isC ? '#2EAF73' : 'rgba(10,40,71,.25)',
+        set: (e) => { const o = [...S.opts]; o[i] = e.target.value; set({ opts: o }); },
+        pick: () => set({ correct: i }) };
+    });
+    const showOpts = ['pg', 'audio', 'video'].includes(S.qType);
+    const pvType = TYPES.find(t => t.key === S.qType) || TYPES[0];
+    const pvBabak = BABAK[S.babak];
+    const pvOpts = S.opts.map((v, i) => ({ letter: LETTERS[i], val: v || '…', isCorrect: S.correct === i,
+      bd: S.correct === i ? '#2EAF73' : 'rgba(10,40,71,.12)', bg: S.correct === i ? '#F4FBF8' : '#fff' }));
+    const pvWords = String(S.words || '').split(/[،,]/).map(w => w.trim()).filter(Boolean).map(w => ({ w }));
+    const pvVid = ytId(S.qVideo);
+    const pvThumb = pvVid ? 'https://img.youtube.com/vi/' + pvVid + '/mqdefault.jpg' : '';
+    const questions = S.questions.map(q => {
+      const b = BABAK[q.babak]; const st = STATUS[q.status];
+      return { ...q,
+        bChip: b.chip, bCo: b.color, bBg: b.bg,
+        stCo: st.color, stBg: st.bg, stDot: st.dot,
+        edit: () => set({ qText: q.t, babak: q.babak, qType: keyFromLabel[q.type] || 'pg' }),
+        del: () => set({ questions: S.questions.filter(x => x.id !== q.id) }) };
+    });
+    const qCount = S.questions.length;
+    const qTerbit = S.questions.filter(q => q.status === 'Terbit').length;
+
+    // ---------- import ----------
+    let importOk = false, importErr = '', importItems = [], importCount = 0;
+    const TIPE_MAP = { pilihan_ganda: 'Pilihan Ganda', isian: 'Isian', susun_kata: 'Susun Kata', dengarkan_audio: 'Dengarkan Audio', tonton_video: 'Tonton Video' };
+    try {
+      const arr = JSON.parse(S.importText);
+      if (!Array.isArray(arr)) throw new Error('harus berupa array [ … ]');
+      importItems = arr.map((it, i) => {
+        const b = BABAK[it.babak] || BABAK[1];
+        return { i: i + 1, text: it.pertanyaan || '(tanpa pertanyaan)', type: TIPE_MAP[it.tipe] || 'Pilihan Ganda',
+          bLabel: b.label, bCo: b.color, bBg: b.bg, babak: it.babak || 1 };
+      });
+      importCount = arr.length; importOk = arr.length > 0;
+    } catch (e) { importErr = 'JSON tidak valid — ' + e.message; }
+    const importBad = !importOk;
+    const applyImport = () => {
+      if (!importOk) return;
+      let nid = S.nextId;
+      const added = importItems.map(it => ({ id: nid++, t: it.text, type: it.type, babak: it.babak, status: 'Draf' }));
+      set({ questions: [...S.questions, ...added], importOpen: false, nextId: nid });
+    };
+    const importBtnTx = 'Tambahkan ' + importCount + ' soal';
+
+    // ---------- murid ----------
+    const rawMurid = [
+      ['Nadia Rahma', 'nadia.rahma@gmail.com', 'L1 · L2', 78, '2 jam lalu'],
+      ['Salsabila Zahra', 'salsabila.z@gmail.com', 'L1 · L2 · L3', 92, 'Baru saja'],
+      ['Bima Saputra', 'bima.sptr@gmail.com', 'L1', 45, '5 jam lalu'],
+      ['Intan Permata', 'intan.permata@gmail.com', 'L1 · L2', 64, 'Kemarin'],
+      ['Raka Pratama', 'raka.pratama@yahoo.com', 'L1', 12, 'Kemarin'],
+      ['Fauzan Akmal', 'fauzan.akmal@gmail.com', 'L2', 38, '3 hari lalu'],
+      ['Yusuf Hakim', 'yusuf.hakim@gmail.com', 'L1', 100, '2 hari lalu'],
+      ['Dewi Anggraini', 'dewi.anggr@gmail.com', 'L1', 5, '8 Jun 2026'],
+    ];
+    const murid = rawMurid.map(r => ({
+      name: r[0], email: r[1], levels: r[2], prog: r[3] + '%', barW: r[3] + '%',
+      barCo: r[3] >= 70 ? '#2EAF73' : (r[3] >= 30 ? '#1B6CA8' : '#E0A800'),
+      initials: r[0].split(' ').map(x => x[0]).slice(0, 2).join(''),
+      last: r[4],
+    }));
+
+    // ---------- pembelian ----------
+    const rawOrders = [
+      ['NW-260612-014', 'Salsabila Zahra', 'Level 3 — Bahasa Arab', 'Rp 99.000', 'QRIS', 'Lunas', '12 Jun 2026 · 09:14'],
+      ['NW-260612-013', 'Bima Saputra', 'Level 1 — Bahasa Arab', 'Rp 99.000', 'GoPay', 'Lunas', '12 Jun 2026 · 08:02'],
+      ['NW-260611-012', 'Keluarga Hartono', 'Paket Tiga Akun', 'Rp 249.000', 'Transfer BCA', 'Pending', '11 Jun 2026 · 21:40'],
+      ['NW-260611-011', 'Intan Permata', 'Level 2 — Bahasa Arab', 'Rp 99.000', 'QRIS', 'Lunas', '11 Jun 2026 · 19:25'],
+      ['NW-260610-010', 'Raka Pratama', 'Level 1 — Bahasa Arab', 'Rp 99.000', 'OVO', 'Lunas', '10 Jun 2026 · 14:08'],
+      ['NW-260610-009', 'Yusuf Hakim', 'Level 1 — Bahasa Arab', 'Rp 99.000', 'Transfer BCA', 'Pending', '10 Jun 2026 · 11:51'],
+      ['NW-260609-008', 'Nadia Rahma', 'Level 2 — Bahasa Arab', 'Rp 99.000', 'QRIS', 'Lunas', '9 Jun 2026 · 16:33'],
+    ];
+    const orders = rawOrders.map(r => {
+      const st = STATUS[r[5]];
+      return { oid: r[0], buyer: r[1], item: r[2], price: r[3], method: r[4],
+        status: r[5], stCo: st.color, stBg: st.bg, stDot: st.dot, date: r[6] };
+    });
+
+    return {
+      // shell
+      nav, crumb: PAGE_META[S.page].c, pageTitle: PAGE_META[S.page].t,
+      isDashboard: S.page === 'dashboard', isKelas: S.page === 'kelas', isSoal: S.page === 'soal',
+      isMurid: S.page === 'murid', isPembelian: S.page === 'pembelian', isPengaturan: S.page === 'pengaturan',
+      showTambah: S.page === 'kelas',
+      openNew: () => set({ editorOpen: true, editorClass: { name: 'Kelas Baru', track: 'Umroh', level: 'L1', soal: 0, terbit: false, isNew: true } }),
+      goKelas: () => set({ page: 'kelas' }),
+      // kelas
+      summary, classes, murid, orders,
+      // editor
+      editorTx: S.editorOpen ? 'translateX(0)' : 'translateX(110%)',
+      scrimOp: S.editorOpen ? '1' : '0', scrimPe: S.editorOpen ? 'auto' : 'none',
+      closeEditor: () => set({ editorOpen: false }),
+      edName: ed.name, edTrack: ed.track, edLevel: ed.level, edSoal: ed.soal,
+      setEdName: (e) => set({ editorClass: { ...ed, name: e.target.value } }),
+      setEdTrack: (e) => set({ editorClass: { ...ed, track: e.target.value } }),
+      setEdLevel: (e) => set({ editorClass: { ...ed, level: e.target.value } }),
+      edStatusTx: ed.terbit ? 'Terbit' : 'Draf',
+      edStatusBg: ed.terbit ? '#E1F5EE' : '#FBF1D0', edStatusCo: ed.terbit ? '#1D9E75' : '#B7860B', edStatusDot: ed.terbit ? '#2EAF73' : '#E0A800',
+      edSlots, dnaCountTx: dnaCount + ' / 5 slot DNA',
+      prereq: S.prereq, setPrereq: (e) => set({ prereq: e.target.value }),
+      videoUrl: S.videoUrl, setVideoUrl: (e) => set({ videoUrl: e.target.value }),
+      edHasThumb: !!edThumb, edNoThumb: !edThumb, edThumb,
+      edVideoChipTx: edThumb ? '✓ Terisi' : 'Kosong', edVideoChipBg: edThumb ? '#E1F5EE' : '#FBF1D0', edVideoChipCo: edThumb ? '#1D9E75' : '#B7860B',
+      edSoalTx: Math.min(ed.soal, 10) + ' / 10', edSoalW: Math.min(ed.soal / 10 * 100, 100) + '%',
+      edSoalBar: soalOk ? '#2EAF73' : '#F5C518',
+      edSlotsOkIcon: dnaCount === 5 ? '✓' : '!', edSlotsOkBg: dnaCount === 5 ? '#E1F5EE' : '#FBF1D0', edSlotsOkCo: dnaCount === 5 ? '#1D9E75' : '#B7860B',
+      edSoalOkIcon: soalOk ? '✓' : '!', edSoalOkBg: soalOk ? '#E1F5EE' : '#FBF1D0', edSoalOkCo: soalOk ? '#1D9E75' : '#B7860B',
+      edLocked: !ed.terbit && !canPublish, edPublishable: canPublish, edTerbit: !!ed.terbit,
+      // soal builder
+      typeChips, babakChips, optRows, showOpts,
+      isPg: S.qType === 'pg', isIsian: S.qType === 'isian', isSusun: S.qType === 'susun', isAudio: S.qType === 'audio', isVideo: S.qType === 'video',
+      qText: S.qText, setQText: (e) => set({ qText: e.target.value }),
+      explain: S.explain, setExplain: (e) => set({ explain: e.target.value }),
+      words: S.words, setWords: (e) => set({ words: e.target.value }),
+      isianKey: S.isianKey, setIsianKey: (e) => set({ isianKey: e.target.value }),
+      audioUrl: S.audioUrl, setAudioUrl: (e) => set({ audioUrl: e.target.value }),
+      qVideo: S.qVideo, setQVideo: (e) => set({ qVideo: e.target.value }),
+      pvTypeLabel: pvType.label, pvTypeIcon: pvType.icon,
+      pvBabakLabel: pvBabak.label, pvBabakCo: pvBabak.color, pvBabakBg: pvBabak.bg,
+      pvText: S.qText || 'Pertanyaan akan tampil di sini…',
+      pvOpts, pvWords, pvIsianKey: S.isianKey || '…',
+      pvAudioName: S.audioUrl || 'audio.mp3',
+      pvHasThumb: !!pvThumb, pvNoThumb: !pvThumb, pvThumb,
+      questions, qListTx: qCount + ' soal · ' + qTerbit + ' terbit',
+      newQ: () => set({ qText: '', opts: ['', '', '', ''], correct: 0, explain: '', babak: 1 }),
+      // import
+      importOpen: S.importOpen,
+      openImport: () => set({ importOpen: true }), closeImport: () => set({ importOpen: false }),
+      importText: S.importText, setImportText: (e) => set({ importText: e.target.value }),
+      importOk, importBad, importErr, importItems, importBtnTx, applyImport,
+    };
+  }
+}
+</script>
+</body>
+</html>

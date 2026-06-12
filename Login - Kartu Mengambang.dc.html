@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: 'Nunito', sans-serif; -webkit-font-smoothing: antialiased; }
+  @keyframes nw-float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
+  @keyframes nw-float-slow { 0%,100% { transform: translateY(0) rotate(-6deg); } 50% { transform: translateY(-14px) rotate(4deg); } }
+  @keyframes nw-drift { 0% { transform: translateX(0); } 50% { transform: translateX(22px); } 100% { transform: translateX(0); } }
+</style>
+</helmet>
+
+<div data-screen-label="Login Kartu Mengambang" style="position:relative;min-height:100vh;background:linear-gradient(165deg,#5DCAA5,#3DBA82 45%,#2EAF73);overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:54px 20px 150px">
+
+  <div style="position:absolute;inset:0;opacity:.14;background-image:radial-gradient(rgba(255,255,255,.9) 2px,transparent 2px);background-size:28px 28px"></div>
+  <div style="position:absolute;top:-70px;right:-50px;width:230px;height:230px;border-radius:50%;background:rgba(255,255,255,.13)"></div>
+  <div style="position:absolute;top:34%;left:-70px;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.09)"></div>
+
+  <div style="position:absolute;top:64px;left:7%;animation:nw-drift 9s ease-in-out infinite">
+    <div style="display:flex;align-items:flex-end"><div style="width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.85)"></div><div style="width:70px;height:24px;border-radius:99px;background:rgba(255,255,255,.85);margin-left:-18px"></div></div>
+  </div>
+  <div style="position:absolute;top:150px;right:9%;animation:nw-drift 12s ease-in-out infinite 1.2s">
+    <div style="display:flex;align-items:flex-end"><div style="width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,.75)"></div><div style="width:56px;height:19px;border-radius:99px;background:rgba(255,255,255,.75);margin-left:-14px"></div></div>
+  </div>
+
+  <div style="position:absolute;top:30%;left:11%;width:38px;height:38px;border-radius:50%;background:#F5C518;box-shadow:0 4px 0 #c9a30c;display:grid;place-items:center;animation:nw-float-slow 5s ease-in-out infinite"><span style="color:#8C5a08;font-size:16px;font-weight:900">ن</span></div>
+  <div style="position:absolute;top:56%;right:9%;width:30px;height:30px;border-radius:50%;background:#F5C518;box-shadow:0 3px 0 #c9a30c;display:grid;place-items:center;animation:nw-float-slow 6.2s ease-in-out infinite .8s"><span style="color:#8C5a08;font-size:13px;font-weight:900">ن</span></div>
+  <div style="position:absolute;top:18%;right:22%;width:22px;height:22px;border-radius:50%;background:#F5C518;box-shadow:0 3px 0 #c9a30c;display:grid;place-items:center;animation:nw-float-slow 7s ease-in-out infinite 1.6s"><span style="color:#8C5a08;font-size:10px;font-weight:900">ن</span></div>
+
+  <svg viewBox="0 0 1440 150" preserveAspectRatio="none" style="position:absolute;bottom:0;left:0;width:100%;height:130px;display:block">
+    <g fill="#1D9E75" opacity=".55"><rect x="20" y="70" width="70" height="80" rx="5"></rect><rect x="130" y="44" width="20" height="106"></rect><polygon points="130,44 140,20 150,44" fill="#1D9E75"></polygon><rect x="190" y="84" width="84" height="66" rx="5"></rect><rect x="320" y="60" width="64" height="90" rx="5"></rect><rect x="430" y="90" width="78" height="60" rx="5"></rect><rect x="560" y="50" width="22" height="100"></rect><rect x="620" y="78" width="74" height="72" rx="5"></rect><rect x="740" y="64" width="66" height="86" rx="5"></rect><rect x="860" y="92" width="80 " height="58" rx="5"></rect><rect x="990" y="56" width="20" height="94"></rect><polygon points="990,56 1000,32 1010,56"></polygon><rect x="1050" y="80" width="76" height="70" rx="5"></rect><rect x="1180" y="66" width="62" height="84" rx="5"></rect><rect x="1290" y="88" width="84" height="62" rx="5"></rect></g>
+    <g fill="#FDFBF4"><rect x="60" y="96" width="64" height="54" rx="5"></rect><path d="M56 98 q36 -34 72 0 z" fill="#117a57"></path><rect x="82" y="120" width="20" height="30" rx="8" fill="#1B6CA8"></rect><rect x="160" y="78" width="13" height="72" rx="5"></rect><path d="M157 80 q9.5 -18 19 0 z" fill="#117a57"></path><rect x="230" y="104" width="56" height="46" rx="4" fill="#FCE9C0"></rect><polygon points="226,104 258,84 290,104" fill="#F0C04A"></polygon><rect x="248" y="124" width="18" height="26" rx="3" fill="#8C5a08"></rect><rect x="350" y="92" width="50" height="58" rx="4"></rect><polygon points="346,92 375,72 404,92" fill="#117a57"></polygon><rect x="362" y="104" width="13" height="13" rx="2" fill="#A9D5EE"></rect><rect x="382" y="104" width="13" height="13" rx="2" fill="#A9D5EE"></rect><rect x="470" y="110" width="52" height="40" rx="4" fill="#FCE9C0"></rect><polygon points="466,110 496,92 526,110" fill="#F0C04A"></polygon><rect x="600" y="96" width="54" height="54" rx="4"></rect><path d="M600 96a27 23 0 0 1 54 0z" fill="#117a57"></path><circle cx="627" cy="62" r="4" fill="#F5C518"></circle><rect x="700" y="108" width="48" height="42" rx="4" fill="#FCE9C0"></rect><polygon points="696,108 724,90 752,108" fill="#F0C04A"></polygon><rect x="800" y="88" width="14" height="62" rx="5"></rect><path d="M797 90 q10 -19 20 0 z" fill="#117a57"></path><rect x="850" y="100" width="58" height="50" rx="4"></rect><polygon points="846,100 879,80 912,100" fill="#117a57"></polygon><rect x="868" y="122" width="20" height="28" rx="8" fill="#1B6CA8"></rect><rect x="960" y="112" width="50" height="38" rx="4" fill="#FCE9C0"></rect><polygon points="956,112 985,94 1014,112" fill="#F0C04A"></polygon><rect x="1080" y="94" width="52" height="56" rx="4"></rect><polygon points="1076,94 1106,74 1136,94" fill="#117a57"></polygon><rect x="1094" y="106" width="13" height="13" rx="2" fill="#A9D5EE"></rect><rect x="1114" y="106" width="13" height="13" rx="2" fill="#A9D5EE"></rect><rect x="1180" y="106" width="56" height="44" rx="4" fill="#FCE9C0"></rect><polygon points="1176,106 1208,86 1240,106" fill="#F0C04A"></polygon><rect x="1300" y="90" width="13" height="60" rx="5"></rect><path d="M1297 92 q9.5 -18 19 0 z" fill="#117a57"></path><rect x="1340" y="112" width="58" height="38" rx="4"></rect><polygon points="1336,112 1369,94 1402,112" fill="#117a57"></polygon></g>
+    <g><circle cx="540" cy="134" r="11" fill="#117a57"></circle><rect x="538" y="140" width="4" height="10" fill="#6b4423"></rect><circle cx="940" cy="136" r="12" fill="#117a57"></circle><rect x="938" y="142" width="4" height="8" fill="#6b4423"></rect><circle cx="1270" cy="134" r="10" fill="#117a57"></circle><rect x="1268" y="140" width="4" height="10" fill="#6b4423"></rect><circle cx="120" cy="136" r="10" fill="#117a57"></circle><rect x="118" y="142" width="4" height="8" fill="#6b4423"></rect></g>
+  </svg>
+
+  <div style="position:relative;z-index:3;width:100%;max-width:474px;background:#fff;border-radius:26px;overflow:hidden;box-shadow:0 30px 64px rgba(4,44,83,.3)">
+    <div style="position:relative;background:linear-gradient(135deg,#2480C4,#1B6CA8 50%,#15598C);padding:30px 30px 26px;text-align:center;color:#fff;overflow:hidden">
+      <div style="position:absolute;top:-44px;left:-34px;width:130px;height:130px;border-radius:50%;background:rgba(93,202,165,.18)"></div>
+      <div style="position:absolute;bottom:-50px;right:-40px;width:130px;height:130px;border-radius:50%;background:rgba(255,255,255,.08)"></div>
+      <div style="position:absolute;top:26px;right:34px;width:4px;height:4px;border-radius:50%;background:#F5C518;opacity:.9"></div>
+      <div style="position:absolute;top:48px;right:62px;width:3px;height:3px;border-radius:50%;background:#fff;opacity:.7"></div>
+      <div style="position:absolute;top:70px;left:40px;width:3px;height:3px;border-radius:50%;background:#5DCAA5;opacity:.9"></div>
+      <div style="position:relative;z-index:2;display:flex;align-items:center;justify-content:center;gap:9px;margin-bottom:16px">
+        <div style="width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,#5DCAA5,#F5C518);display:grid;place-items:center;box-shadow:0 3px 0 rgba(4,44,83,.22)"><span style="color:#042C53;font-size:16px;font-weight:900">ن</span></div>
+        <span style="font-size:20px;font-weight:900;letter-spacing:-.4px;color:#fff">Nusa<span style="color:#F5C518">World</span></span>
+      </div>
+      <div style="position:relative;z-index:2;display:inline-block;animation:nw-float 4.5s ease-in-out infinite">
+        <svg viewBox="0 0 120 112" style="width:92px;height:auto;filter:drop-shadow(0 10px 14px rgba(4,44,83,.32))"><ellipse cx="26" cy="70" rx="15" ry="9" fill="#1D9E75" transform="rotate(-22 26 70)"></ellipse><ellipse cx="94" cy="70" rx="15" ry="9" fill="#1D9E75" transform="rotate(22 94 70)"></ellipse><ellipse cx="34" cy="89" rx="13" ry="8" fill="#178a64" transform="rotate(-12 34 89)"></ellipse><ellipse cx="86" cy="89" rx="13" ry="8" fill="#178a64" transform="rotate(12 86 89)"></ellipse><ellipse cx="60" cy="66" rx="38" ry="31" fill="#1D9E75"></ellipse><ellipse cx="60" cy="62" rx="31" ry="25" fill="#2EAF73"></ellipse><polygon points="60,44 73,52 73,68 60,76 47,68 47,52" fill="#F5C518"></polygon><polygon points="36,58 47,52 47,68 36,72" fill="#5DCAA5"></polygon><polygon points="84,58 73,52 73,68 84,72" fill="#1B6CA8"></polygon><circle cx="60" cy="26" r="17" fill="#2EAF73"></circle><circle cx="53" cy="24" r="5.5" fill="#fff"></circle><circle cx="67" cy="24" r="5.5" fill="#fff"></circle><circle cx="54" cy="25" r="2.6" fill="#042C53"></circle><circle cx="66" cy="25" r="2.6" fill="#042C53"></circle><circle cx="51.5" cy="32" r="2.4" fill="#F5A5A5" opacity=".7"></circle><circle cx="68.5" cy="32" r="2.4" fill="#F5A5A5" opacity=".7"></circle><path d="M55 33 q5 4 10 0" stroke="#042C53" stroke-width="2.4" fill="none" stroke-linecap="round"></path></svg>
+      </div>
+      <p style="position:relative;z-index:2;font-size:13.5px;font-weight:800;color:#F5C518;letter-spacing:.08em;margin:8px 0 0">JELAJAHI · BICARA · MENDUNIA</p>
+    </div>
+    <dc-import name="AuthForm" is-masuk="{{ isMasuk }}" agree="{{ agree }}" on-masuk="{{ onMasuk }}" on-daftar="{{ onDaftar }}" on-toggle-agree="{{ onToggleAgree }}" tab-active="#1B6CA8" tab-shadow="#134e7c" tab-text="#fff" tab-inactive="#7E96AA" hint-size="100%,auto"></dc-import>
+  </div>
+
+  <p style="position:relative;z-index:3;margin:26px 0 0;font-size:13px;font-weight:700;color:rgba(255,255,255,.85);text-align:center">الْعَرَبِيَّةُ مُمْتِعَة — Bahasa Arab itu menyenangkan · © 2026 NusaWorld</p>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { tab: 'masuk', agree: false };
+  renderVals() {
+    return {
+      isMasuk: this.state.tab !== 'daftar',
+      agree: this.state.agree,
+      onMasuk: () => this.setState({ tab: 'masuk' }),
+      onDaftar: () => this.setState({ tab: 'daftar' }),
+      onToggleAgree: () => this.setState(s => ({ agree: !s.agree }))
+    };
+  }
+}
+</script>
+</body>
+</html>
